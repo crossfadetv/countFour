@@ -4,10 +4,9 @@ import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Polygon;
 import javafx.stage.Stage;
 
 
@@ -17,8 +16,6 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setScene(createScene());
         primaryStage.show();
-
-
     }
 
     private Scene createScene() {
@@ -28,16 +25,17 @@ public class Main extends Application {
     }
 
     private Parent createBoard() {
-        Pane root = new AnchorPane();
-        root.setPrefSize(700, 600);
+        Pane root = new GridPane();
+        root.setPrefSize(700, 700);
 
-
-
-        for (int i = 1; i <= 7; i++) {
-            for (int j = 1; j <= 6; j++) {
+        for (int x = 1; x <= 7; x++) {
+            Polygon positionArrow = createArrow();
+            positionArrow.setTranslateX((x *100)-80);
+            root.getChildren().add(positionArrow);
+            for (int y = 1; y <= 6; y++) {
                 PositionCircle positionCircle = new PositionCircle();
-                positionCircle.setTranslateX((i * 100) - 90);
-                positionCircle.setTranslateY((j * 100) - 90);
+                positionCircle.setTranslateX((x * 100) - 90);
+                positionCircle.setTranslateY((y * 100));
                 root.getChildren().add(positionCircle);
             }
         }
@@ -46,5 +44,19 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         launch(args);
+    }
+
+    private Polygon createArrow(){
+        double points[]={ 60,90,
+                30,50,
+                45,50,
+                45,30,
+                75,30,
+                75,50,
+                90,50};
+
+        Polygon arrow = new Polygon(points);
+        arrow.setFill(Color.FORESTGREEN);
+        return arrow;
     }
 }
