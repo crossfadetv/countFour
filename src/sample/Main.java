@@ -1,6 +1,7 @@
 package sample;
 
 import javafx.application.Application;
+import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -8,13 +9,16 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.stage.Stage;
+import org.w3c.dom.ls.LSOutput;
 
 
 public class Main extends Application {
+    Scene scene;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        primaryStage.setScene(createScene());
+        Scene scene = createScene();
+        primaryStage.setScene(scene);
         primaryStage.show();
     }
 
@@ -56,7 +60,9 @@ public class Main extends Application {
                 90,50};
 
         Polygon arrow = new Polygon(points);
-        arrow.setFill(Color.FORESTGREEN);
+        arrow.setFill(Color.GREEN);
+        arrow.setOnMouseEntered(event -> arrow.setCursor(Cursor.HAND));
+        arrow.setOnMouseClicked(event -> System.out.println("clicked"));
         return arrow;
     }
 }
