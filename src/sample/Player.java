@@ -38,7 +38,7 @@ public class Player {
 
     public void fillStones(){
         for(int x=0; x<=21;x++){
-            stones.add(new Stone(color));
+            stones.add(new Stone(Color.RED));
         }
     }
 }

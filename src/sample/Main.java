@@ -77,12 +77,19 @@ public class Main extends Application {
     }
 
     private void throwStone(int column, Player player) {
-        int row = ROWS-1;
-        column = column -1;
+        column = column - 1;
         Stone stone = player.playStone();
-        stoneContainerGrid[column][row] = stone;
-        stone.setTranslateX(column*FIELDSIZE + 50); //hässlich mit dem 50
-        stone.setTranslateY(row*FIELDSIZE + 150); //hässlich mit dem 150
-        stonePane.getChildren().add(stone);
+
+        for (int row = ROWS - 1; row >= 0; row--) {
+            if (stoneContainerGrid[column][row] == null) {
+                stoneContainerGrid[column][row] = stone;
+                stone.setTranslateX(column * FIELDSIZE + 50); //hässlich mit dem 50
+                stone.setTranslateY(row * FIELDSIZE + 150); //hässlich mit dem 150
+                stonePane.getChildren().add(stone);
+                return;
+            }
+            else{}
+        }
+
+        }
     }
-}
