@@ -82,14 +82,16 @@ public class Main extends Application {
 
     private void throwStone(int column, Player player) {
         column = column - 1;
-        Stone stone = player.playStone();
 
         for (int row = ROWS - 1; row >= 0; row--) {
-            if (stoneContainerGrid[column][row] == null) {
+            if (stoneContainerGrid[column][row] == null && row<=5) {
+                Stone stone = player.playStone();
                 stoneContainerGrid[column][row] = stone;
                 stone.setTranslateX(column * FIELDSIZE + 50); //hässlich mit dem 50
                 stone.setTranslateY(row * FIELDSIZE + 150); //hässlich mit dem 150
                 stonePane.getChildren().add(stone);
+                System.out.println(column+" "+ row);
+                changePlayerTurn();
                 return;
             } else {
             }
@@ -144,11 +146,15 @@ public class Main extends Application {
        if(player.onTurn()){
            playerOnTurn = player;
        }
-        player.changeTurn();
     }
        return playerOnTurn;
     }
 
+    public void changePlayerTurn(){
+        for(Player player: players){
+            player.changeTurn();
+        }
+    }
 
     public static void main(String[] args) {
         launch(args);
