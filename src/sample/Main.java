@@ -1,34 +1,47 @@
 package sample;
 
-import com.sun.xml.internal.ws.api.model.wsdl.WSDLOutput;
 import javafx.application.Application;
+import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import org.w3c.dom.ls.LSOutput;
 
 import java.io.FileOutputStream;
-import java.lang.reflect.Field;
-
+import java.util.ArrayList;
 
 public class Main extends Application {
+
     private static final int COLUMNS = 7;
     private static final int ROWS = 6;
     private static final int FIELDSIZE = 100;
     private Stone[][] stoneContainerGrid = new Stone[COLUMNS][ROWS];
     private Pane stonePane = new Pane();
+    private Scene playScene;
+    private Stage primaryStage;
+    private ArrayList<Player> players;
+
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Scene scene = createScene();
-        primaryStage.setScene(scene);
+        this.primaryStage = primaryStage;
+        playScene = createScene();
+        primaryStage.setScene(playScene);
+        Scene entryScreen = createEntryScreen();
+        primaryStage.setScene(entryScreen);
         primaryStage.show();
     }
 
@@ -48,8 +61,7 @@ public class Main extends Application {
             positionArrow.setTranslateX((x * FIELDSIZE) - 80);
             positionArrow.setOnMouseEntered(event -> positionArrow.setCursor(Cursor.HAND));
             final int column = x;
-            positionArrow.setOnMouseClicked(event -> throwStone(column, new Player()));
-            // positionArrow.setOnMouseClicked(event -> System.out.println(column));
+            positionArrow.setOnMouseClicked(event -> throwStone(column, getPlayerOnTurn()));
             root.getChildren().add(positionArrow);
             for (int y = 1; y <= ROWS; y++) {
                 Rectangle rectangle = new Rectangle((x - 1) * FIELDSIZE, y * FIELDSIZE, 100, 100);
@@ -63,10 +75,6 @@ public class Main extends Application {
             }
         }
         return root;
-    }
-
-    public static void main(String[] args) {
-        launch(args);
     }
 
     private Polygon createArrow() {
@@ -87,9 +95,65 @@ public class Main extends Application {
                 stone.setTranslateY(row * FIELDSIZE + 150); //hässlich mit dem 150
                 stonePane.getChildren().add(stone);
                 return;
+            } else {
             }
-            else{}
-        }
-
         }
     }
+
+
+    public Scene createEntryScreen() {
+        Pane entryRoot = new GridPane();
+        entryRoot.setPrefSize(700, 700);
+
+        Label newGameText = new Label("NEW GAME");
+        newGameText.setTranslateX(200);
+        newGameText.setTranslateY(150);
+        newGameText.setFont(Font.font(20));
+
+        Label redLabel = new Label("RED Player");
+        redLabel.setTranslateX(100);
+        redLabel.setTranslateY(300);
+        TextField redPlayer = new TextField();
+        redPlayer.setTranslateX(200);
+        redPlayer.setTranslateY(300);
+        Label yellowLabel = new Label("YELLOW Player");
+        yellowLabel.setTranslateX(100);
+        yellowLabel.setTranslateY(350);
+        TextField yellowPlayer = new TextField();
+        yellowPlayer.setTranslateX(200);
+        yellowPlayer.setTranslateY(350);
+
+        Button startGameButton = new Button("Start");
+        startGameButton.setTranslateX(400);
+        startGameButton.setTranslateY(400);
+        startGameButton.setOnMouseClicked(event -> startGame(redPlayer.getText(), yellowPlayer.getText()));
+        entryRoot.getChildren().addAll(newGameText, redLabel, redPlayer, yellowPlayer, yellowLabel, startGameButton);
+        Scene entryScreen = new Scene(entryRoot);
+        return entryScreen;
+
+    }
+
+    public void startGame(String redPlayerName, String yellowPlayerName){
+        Player redPlayer = new Player(redPlayerName, Color.RED, true);
+        Player yellowPlayer = new Player(yellowPlayerName, Color.YELLOW, false);
+        players = new ArrayList<>();
+        players.add(redPlayer);
+        players.add(yellowPlayer);
+        primaryStage.setScene(playScene);
+    }
+
+    public Player getPlayerOnTurn(){
+        Player playerOnTurn =null;
+    for(Player player: players){
+       if(player.onTurn()){
+           playerOnTurn = player;
+       }  }
+       return playerOnTurn;
+    }
+
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+}
+

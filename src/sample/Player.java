@@ -1,17 +1,22 @@
 package sample;
 
 import com.sun.org.apache.regexp.internal.REDebugCompiler;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 
 public class Player {
-    private Color color = Color.RED;
+    private Color color;
     private String name;
     private ArrayList<Stone> stones;
+    private boolean turn;
 
-    public Player(){
+    public Player(String playerName, Color color, boolean turn){
         stones = new ArrayList<>();
+        this.name = playerName;
+        this.color = color;
+        this.turn = turn;
         fillStones();
     }
 
@@ -23,11 +28,15 @@ public class Player {
         this.name = name;
     }
 
-/*    public void setColor(Color color){
-        this.color = color;
-    }*/
+  /*  public void setColor(Color color){
+        this.color = color;}
+  */
     public Color getColor() {
         return color;
+    }
+
+    public boolean onTurn(){
+        return turn;
     }
 
     public Stone playStone(){
@@ -38,7 +47,7 @@ public class Player {
 
     public void fillStones(){
         for(int x=0; x<=21;x++){
-            stones.add(new Stone(Color.RED));
+            stones.add(new Stone(color));
         }
     }
 }
