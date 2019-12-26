@@ -46,8 +46,12 @@ public class Player {
     }
 
     public void fillStones(){
-        for(int x=0; x<=21;x++){
-            stones.add(new Stone(color));
+        for(int x=0; x<21;x++){
+            stones.add(new Stone(this.color));
+        }}
+
+        public void changeTurn(){
+            this.turn = !this.turn;
         }
     }
-}
+
