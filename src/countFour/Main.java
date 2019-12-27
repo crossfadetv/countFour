@@ -1,5 +1,7 @@
-package sample;
+package countFour;
 
+import countFour.model.Player;
+import countFour.model.Stone;
 import javafx.application.Application;
 import javafx.scene.Cursor;
 import javafx.scene.Parent;
@@ -16,7 +18,6 @@ import javafx.scene.shape.Shape;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-import java.io.FileOutputStream;
 import java.util.ArrayList;
 
 public class Main extends Application {
@@ -91,6 +92,7 @@ public class Main extends Application {
                 stone.setTranslateY(row * FIELDSIZE + 150); //hässlich mit dem 150
                 stonePane.getChildren().add(stone);
                 System.out.println(column+" "+ row);
+                System.out.println(stoneContainerGrid.length);
                 changePlayerTurn();
                 return;
             } else {

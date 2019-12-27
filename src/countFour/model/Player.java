@@ -1,7 +1,5 @@
-package sample;
+package countFour.model;
 
-import com.sun.org.apache.regexp.internal.REDebugCompiler;
-import javafx.scene.control.ColorPicker;
 import javafx.scene.paint.Color;
 
 import java.util.ArrayList;

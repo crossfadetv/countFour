@@ -1,4 +1,4 @@
-package sample;
+package countFour.model;
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
