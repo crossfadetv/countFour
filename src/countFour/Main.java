@@ -85,14 +85,14 @@ public class Main extends Application {
         column = column - 1;
 
         for (int row = ROWS - 1; row >= 0; row--) {
-            if (stoneContainerGrid[column][row] == null && row<=5) {
+            if (stoneContainerGrid[column][row] == null && row <= 5) {
                 Stone stone = player.playStone();
                 stoneContainerGrid[column][row] = stone;
                 stone.setTranslateX(column * FIELDSIZE + 50); //hässlich mit dem 50
                 stone.setTranslateY(row * FIELDSIZE + 150); //hässlich mit dem 150
                 stonePane.getChildren().add(stone);
-                System.out.println(column+" "+ row);
-                System.out.println(stoneContainerGrid.length);
+                System.out.println(column + " " + row);
+                checkForWinner(player, column, row);
                 changePlayerTurn();
                 return;
             } else {
@@ -133,7 +133,7 @@ public class Main extends Application {
 
     }
 
-    public void startGame(String redPlayerName, String yellowPlayerName){
+    public void startGame(String redPlayerName, String yellowPlayerName) {
         Player redPlayer = new Player(redPlayerName, Color.RED, true);
         Player yellowPlayer = new Player(yellowPlayerName, Color.YELLOW, false);
         players = new ArrayList<>();
@@ -142,20 +142,65 @@ public class Main extends Application {
         primaryStage.setScene(playScene);
     }
 
-    public Player getPlayerOnTurn(){
-        Player playerOnTurn =null;
-    for(Player player: players){
-       if(player.onTurn()){
-           playerOnTurn = player;
-       }
-    }
-       return playerOnTurn;
+    public Player getPlayerOnTurn() {
+        Player playerOnTurn = null;
+        for (Player player : players) {
+            if (player.onTurn()) {
+                playerOnTurn = player;
+            }
+        }
+        return playerOnTurn;
     }
 
-    public void changePlayerTurn(){
-        for(Player player: players){
+    public void changePlayerTurn() {
+        for (Player player : players) {
             player.changeTurn();
         }
+    }
+
+    public void checkForWinner(Player player, int column, int row) {
+        int counter = 0;
+        Color currentColor = player.getColor();
+        //check vertical wins
+        for (int x = row; x <= row + 3; x++) {
+            if (x < ROWS && stoneContainerGrid[column][x] != null && stoneContainerGrid[column][x].getColor() == currentColor) {
+                counter++;
+                if (counter > 3) {
+                    System.out.println(player.getName() + " has won");
+                    return;
+                }
+            } else {
+                counter = 0;
+            }
+        }
+        //check horizontal wins
+        for (int x = 0; x < COLUMNS; x++) {
+            if (stoneContainerGrid[x][row] != null && stoneContainerGrid[x][row].getColor() == currentColor) {
+                counter++;
+                if (counter > 3) {
+                    System.out.println(player.getName() + " has won");
+                    return;
+                }
+            } else {
+                counter = 0;
+            }
+        }
+
+        //check diagonal wins
+       /* for (int x = 0; x < COLUMNS; x++) {
+            for (int y = 0; y < ROWS; y++, x++) {
+                if (stoneContainerGrid[x][y] != null && stoneContainerGrid[x][y].getColor() == currentColor) {
+                    counter++;
+                    if (counter > 3) {
+                        System.out.println(player.getName() + " has won");
+                        return;
+                    }
+                } else {
+                    counter = 0;
+                }
+            }
+        }*/
+
     }
 
     public static void main(String[] args) {
