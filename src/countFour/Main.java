@@ -39,6 +39,7 @@ public class Main extends Application {
         primaryStage.setScene(playScene);
         Scene entryScreen = createEntryScreen();
         primaryStage.setScene(entryScreen);
+        primaryStage.setTitle("4 Gewinnt");
         primaryStage.show();
     }
 
@@ -126,6 +127,7 @@ public class Main extends Application {
         Button startGameButton = new Button("Start");
         startGameButton.setTranslateX(400);
         startGameButton.setTranslateY(400);
+        startGameButton.setOnKeyPressed(event -> startGame(redPlayer.getText(), yellowPlayer.getText()));
         startGameButton.setOnMouseClicked(event -> startGame(redPlayer.getText(), yellowPlayer.getText()));
         entryRoot.getChildren().addAll(newGameText, redLabel, redPlayer, yellowPlayer, yellowLabel, startGameButton);
         Scene entryScreen = new Scene(entryRoot);
@@ -167,11 +169,8 @@ public class Main extends Application {
                 counter++;
                 if (counter > 3) {
                     System.out.println(player.getName() + " has won");
-                    return;
-                }
-            } else {
-                counter = 0;
-            }
+                    return;                }
+            } else { counter = 0; }
         }
         //check horizontal wins
         for (int x = 0; x < COLUMNS; x++) {
@@ -181,27 +180,26 @@ public class Main extends Application {
                     System.out.println(player.getName() + " has won");
                     return;
                 }
-            } else {
-                counter = 0;
-            }
+            } else { counter = 0; }
         }
 
         //check diagonal wins
-       /* for (int x = 0; x < COLUMNS; x++) {
-            for (int y = 0; y < ROWS; y++, x++) {
-                if (stoneContainerGrid[x][y] != null && stoneContainerGrid[x][y].getColor() == currentColor) {
-                    counter++;
-                    if (counter > 3) {
-                        System.out.println(player.getName() + " has won");
-                        return;
-                    }
-                } else {
-                    counter = 0;
+        //descending
+        for (int x = 0; x < COLUMNS - 3; x++) {
+            for (int y = 0; y < ROWS - 3; y++) {
+                for (int offset = 1; offset <= 3; ) {
+                    if (stoneContainerGrid[x][y] != null && stoneContainerGrid[x + offset][y + offset] != null && stoneContainerGrid[x][y].getColor() == stoneContainerGrid[x + offset][y + offset].getColor()) {
+                        offset++;
+                        if (offset > 3) {
+                            System.out.println(player.getName() + " has won");
+                            return;
+                        }
+                    } else { break; }
                 }
             }
-        }*/
-
+        }
     }
+
 
     public static void main(String[] args) {
         launch(args);
