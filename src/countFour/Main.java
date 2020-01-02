@@ -169,8 +169,11 @@ public class Main extends Application {
                 counter++;
                 if (counter > 3) {
                     System.out.println(player.getName() + " has won");
-                    return;                }
-            } else { counter = 0; }
+                    return;
+                }
+            } else {
+                counter = 0;
+            }
         }
         //check horizontal wins
         for (int x = 0; x < COLUMNS; x++) {
@@ -180,7 +183,9 @@ public class Main extends Application {
                     System.out.println(player.getName() + " has won");
                     return;
                 }
-            } else { counter = 0; }
+            } else {
+                counter = 0;
+            }
         }
 
         //check diagonal wins
@@ -189,6 +194,20 @@ public class Main extends Application {
             for (int y = 0; y < ROWS - 3; y++) {
                 for (int offset = 1; offset <= 3; ) {
                     if (stoneContainerGrid[x][y] != null && stoneContainerGrid[x + offset][y + offset] != null && stoneContainerGrid[x][y].getColor() == stoneContainerGrid[x + offset][y + offset].getColor()) {
+                        offset++;
+                        if (offset > 3) {
+                            System.out.println(player.getName() + " has won");
+                            return;                        }
+                    } else { break; }
+                }
+            }
+        }
+
+        //ascending diagonals
+        for (int x = 0; x < COLUMNS - 3; x++) {
+            for (int y = 4; y < ROWS; y++) {
+                for (int offset = 1; offset <= 3; ) {
+                    if (stoneContainerGrid[x][y] != null && stoneContainerGrid[x + offset][y - offset] != null && stoneContainerGrid[x][y].getColor() == stoneContainerGrid[x + offset][y - offset].getColor()) {
                         offset++;
                         if (offset > 3) {
                             System.out.println(player.getName() + " has won");
