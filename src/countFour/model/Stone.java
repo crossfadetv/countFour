@@ -5,9 +5,12 @@ import javafx.scene.shape.Circle;
 
 public class Stone extends Circle {
     private Color color;
+    //private Player player;
 
-public Stone(Color color){
-    this.color = color;
+
+public Stone(Player player){
+    this.color = player.getColor();
+   // this.player = player;
     setFill(color);
     this.setRadius(40.0);
 }
@@ -15,4 +18,6 @@ public Stone(Color color){
 public Color getColor(){
     return color;
 }
+
+
 }

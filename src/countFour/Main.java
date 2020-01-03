@@ -1,5 +1,6 @@
 package countFour;
 
+import countFour.model.Game;
 import countFour.model.Player;
 import countFour.model.Stone;
 import javafx.application.Application;
@@ -30,10 +31,16 @@ public class Main extends Application {
     private Scene playScene;
     private Stage primaryStage;
     private ArrayList<Player> players;
+    private Controller controller;
 
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        /*Game game = new Game();
+        controller = new Controller(game);
+        controller.buildView(primaryStage);*/
+        //TODO: make available again (only commented out for commit)
+
         this.primaryStage = primaryStage;
         playScene = createScene();
         primaryStage.setScene(playScene);
@@ -197,15 +204,18 @@ public class Main extends Application {
                         offset++;
                         if (offset > 3) {
                             System.out.println(player.getName() + " has won");
-                            return;                        }
-                    } else { break; }
+                            return;
+                        }
+                    } else {
+                        break;
+                    }
                 }
             }
         }
 
         //ascending diagonals
         for (int x = 0; x < COLUMNS - 3; x++) {
-            for (int y = 4; y < ROWS; y++) {
+            for (int y = 3; y < ROWS; y++) {
                 for (int offset = 1; offset <= 3; ) {
                     if (stoneContainerGrid[x][y] != null && stoneContainerGrid[x + offset][y - offset] != null && stoneContainerGrid[x][y].getColor() == stoneContainerGrid[x + offset][y - offset].getColor()) {
                         offset++;
@@ -213,7 +223,9 @@ public class Main extends Application {
                             System.out.println(player.getName() + " has won");
                             return;
                         }
-                    } else { break; }
+                    } else {
+                        break;
+                    }
                 }
             }
         }
