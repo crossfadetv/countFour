@@ -6,8 +6,10 @@ import countFour.model.Game;
 import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
@@ -23,9 +25,8 @@ public class PlayScreen extends GridPane {
 
     private Stage primaryStage;
     private Pane stonePane = new Pane();
+    private TextArea infoBox;
     private Controller controller;
-
-//TODO: define controller
 
     public PlayScreen(Controller controller, Stage primaryStage){
         super();
@@ -36,7 +37,7 @@ public class PlayScreen extends GridPane {
 
     public Parent buildPlayScreen(){
         this.getChildren().add(stonePane);
-        this.setPrefSize(700, 700);
+        this.setPrefSize(700, 800);
 
         for (int x = 1; x <= COLUMNS; x++) {
             Polygon positionArrow = createArrow();
@@ -55,6 +56,9 @@ public class PlayScreen extends GridPane {
                 field.setTranslateY((y * 100));
                 this.getChildren().add(field);
             }
+
+            this.getChildren().add(getInfoBox());
+
         }
         return this;
     }
@@ -66,6 +70,17 @@ public class PlayScreen extends GridPane {
         return arrow;
     }
 
+    private VBox getInfoBox(){
+        infoBox = new TextArea();
+        infoBox.setText(controller.showPlayer()+" it's your turn!");
+        VBox infoBoxContainer = new VBox(infoBox);
+        infoBoxContainer.setPrefSize(700, 100);
+        infoBoxContainer.setTranslateX(0);
+        infoBoxContainer.setTranslateY(700);
+        return infoBoxContainer;
+    }
+
+
     public void showScreen() {
         Scene scene = new Scene(buildPlayScreen());
         scene.setFill(null);
@@ -76,10 +91,11 @@ public class PlayScreen extends GridPane {
     private void makeMove(int column){
         try {
             stonePane.getChildren().add(controller.handlePlayMove(column));
+            infoBox.setText(controller.showPlayer()+" it's your turn!");
         }
         catch(NullPointerException e){
-            //TODO: introduce error handling
-        }
+            infoBox.setText(controller.showPlayer()+" it's your turn!" +"\n"+ "Column is full!");
+          }
     }
 
 

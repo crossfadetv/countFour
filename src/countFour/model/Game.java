@@ -116,8 +116,9 @@ public class Game extends Observable {
         players = new ArrayList<>();
         players.add(redPlayer);
         players.add(yellowPlayer);
+    }
 
-        //TODO: introduce endGame method
-
+    public void endGame(){
+        //TODO: introduce endGame Method
     }
 }

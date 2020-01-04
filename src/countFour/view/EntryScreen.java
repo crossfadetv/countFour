@@ -30,7 +30,7 @@ public class EntryScreen extends Pane {
     }
 
     private Parent buildEntryScreen() {
-        this.setPrefSize(700, 700);
+        this.setPrefSize(700, 800);
 
         Label newGameText = new Label("NEW GAME");
         newGameText.setTranslateX(200);

@@ -10,7 +10,6 @@ public class Controller {
     private PlayScreen playScreen;
     private Game game;
 
-//TODO:
     public Controller(Game game){
         this.game = game;
     }
@@ -36,6 +35,9 @@ public class Controller {
         this.playScreen = playScreen;
         }
 
+        public String showPlayer(){
+        return game.getPlayerOnTurn().getName();
+        }
 
 
 
