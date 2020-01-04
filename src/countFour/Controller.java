@@ -4,29 +4,36 @@ import countFour.model.Game;
 import countFour.model.Stone;
 import countFour.view.EntryScreen;
 import countFour.view.PlayScreen;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
 
 public class Controller {
-    private Stage primaryStage;
+    private EntryScreen entryScreen;
+    private PlayScreen playScreen;
     private Game game;
 
+//TODO:
     public Controller(Game game){
         this.game = game;
     }
 
-    public void buildView(Stage primaryStage){
-        this.primaryStage = primaryStage;
-        Scene playScene = new Scene(new PlayScreen().buildPlayScreen());
-        primaryStage.setScene(playScene);
-        Scene entryScreen = new Scene(new EntryScreen().buildEntryScreen());
-        primaryStage.setScene(entryScreen);
-        primaryStage.setTitle("4 Gewinnt");
-        primaryStage.show();
+    public void buildView(){
+        entryScreen.showScreen();
     }
 
-    public Stone handleThrowStone(int column) {
-        return game.throwStone(column);
+    public Stone handlePlayMove(int column) {
+        return game.playMove(column);
+    }
+
+        public void handleStartGame(String redPlayerName, String yellowPlayerName){
+        game.startGame(redPlayerName, yellowPlayerName);
+        playScreen.showScreen();
+        }
+
+        public void setEntryScreen(EntryScreen entryscreen){
+        this.entryScreen = entryscreen;
+        }
+
+        public void setPlayScreen(PlayScreen playScreen){
+        this.playScreen = playScreen;
         }
 
 

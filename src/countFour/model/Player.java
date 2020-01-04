@@ -26,10 +26,7 @@ public class Player {
         this.name = name;
     }
 
-  /*  public void setColor(Color color){
-        this.color = color;}
-  */
-    public Color getColor() {
+      public Color getColor() {
         return color;
     }
 

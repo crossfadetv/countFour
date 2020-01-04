@@ -1,5 +1,6 @@
 package countFour.view;
 
+import countFour.Controller;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -7,17 +8,28 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
-
-import java.util.Map;
+import javafx.stage.Stage;
 
 public class EntryScreen extends Pane {
-    //TODO: define controller
+    private Controller controller;
+    private Stage primaryStage;
 
-    public EntryScreen(){
+    public EntryScreen(Controller controller, Stage primaryStage) {
         super();
+        this.controller = controller;
+        this.primaryStage = primaryStage;
+
     }
 
-    public Parent buildEntryScreen(){
+    public void showScreen() {
+        Scene scene = new Scene(buildEntryScreen());
+        primaryStage.setScene(scene);
+        primaryStage.show();
+        primaryStage.setTitle("4 Gewinnt");
+
+    }
+
+    private Parent buildEntryScreen() {
         this.setPrefSize(700, 700);
 
         Label newGameText = new Label("NEW GAME");
@@ -41,8 +53,8 @@ public class EntryScreen extends Pane {
         Button startGameButton = new Button("Start");
         startGameButton.setTranslateX(400);
         startGameButton.setTranslateY(400);
-    // startGameButton.setOnKeyPressed(event -> controller.startGame(redPlayer.getText(), yellowPlayer.getText()));
-     //startGameButton.setOnMouseClicked(event -> controller.startGame(redPlayer.getText(), yellowPlayer.getText()));
+        startGameButton.setOnKeyPressed(event -> controller.handleStartGame(redPlayer.getText(), yellowPlayer.getText()));
+        startGameButton.setOnMouseClicked(event -> controller.handleStartGame(redPlayer.getText(), yellowPlayer.getText()));
         this.getChildren().addAll(newGameText, redLabel, redPlayer, yellowPlayer, yellowLabel, startGameButton);
         return this;
     }

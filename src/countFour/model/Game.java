@@ -1,36 +1,35 @@
 package countFour.model;
 
-import javafx.collections.ObservableList;
 import javafx.scene.paint.Color;
 
+import java.util.ArrayList;
 import java.util.Observable;
 
 public class Game extends Observable {
     public static final int ROWS = 6;
     public static final int COLUMNS = 7;
     public static final int FIELDSIZE = 100;
-    private ObservableList<Player> players;
+    private ArrayList<Player> players;
     private Stone[][] stoneContainerGrid = new Stone[COLUMNS][ROWS];
 
-    public Stone throwStone(int column) {
+    public Stone playMove(int column) {
         column = column - 1;
-        Stone stone = getPlayerOnTurn().playStone();
+           for (int row = ROWS - 1; row >= 0; row--) {
+                if (stoneContainerGrid[column][row] == null && row <= 5) {
+                    Stone stone = getPlayerOnTurn().playStone();
+                    stoneContainerGrid[column][row] = stone;
+                    stone.setTranslateX(column * FIELDSIZE + 50); //hässlich mit dem 50
+                    stone.setTranslateY(row * FIELDSIZE + 150); //hässlich mit dem 150
+                    System.out.println(column + " " + row);
+                    checkForWinner(getPlayerOnTurn(), column, row);
+                    changePlayerTurn();
+                    return stone;
+                } else{}
+           }
+        return null;
+      }
 
-        for (int row = ROWS - 1; row >= 0; row--) {
-            if (stoneContainerGrid[column][row] == null && row <= 5) {
-                stoneContainerGrid[column][row] = stone;
-                stone.setTranslateX(column * FIELDSIZE + 50); //hässlich mit dem 50
-                stone.setTranslateY(row * FIELDSIZE + 150); //hässlich mit dem 150
-                System.out.println(column + " " + row);
-                checkForWinner(getPlayerOnTurn(), column, row);
-                changePlayerTurn();
-                return stone;
-            } else {
-            }
-        } return null; //TODO: introduce Exception Handling!
-    }
-
-    public Player getPlayerOnTurn() {
+    public Player getPlayerOnTurn(){
         Player playerOnTurn = null;
         for (Player player : players) {
             if (player.onTurn()) {
@@ -84,8 +83,11 @@ public class Game extends Observable {
                         offset++;
                         if (offset > 3) {
                             System.out.println(player.getName() + " has won");
-                            return;                        }
-                    } else { break; }
+                            return;
+                        }
+                    } else {
+                        break;
+                    }
                 }
             }
         }
@@ -100,12 +102,22 @@ public class Game extends Observable {
                             System.out.println(player.getName() + " has won");
                             return;
                         }
-                    } else { break; }
+                    } else {
+                        break;
+                    }
                 }
             }
         }
     }
 
-    //TODO: introduce endGame method
+    public void startGame(String redPlayerName, String yellowPlayerName) {
+        Player redPlayer = new Player(redPlayerName, Color.RED, true);
+        Player yellowPlayer = new Player(yellowPlayerName, Color.YELLOW, false);
+        players = new ArrayList<>();
+        players.add(redPlayer);
+        players.add(yellowPlayer);
 
+        //TODO: introduce endGame method
+
+    }
 }
