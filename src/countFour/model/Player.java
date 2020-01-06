@@ -40,6 +40,10 @@ public class Player {
         return stone;
     }
 
+    public int countStones(){
+       return stones.size();
+    }
+
     public void fillStones(){
         for(int x=0; x<21;x++){
             stones.add(new Stone(this));

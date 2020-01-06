@@ -133,14 +133,23 @@ public class PlayScreen extends GridPane {
 
     public void addWinnerInfo() {
         infoBox.setText(controller.getWinner() + " you are the winner");
-        Button newGame = new Button("New Game");
-        newGame.setOnMouseClicked(event -> controller.handleNewGame());
-        infoBoxContainer.getChildren().add(newGame);
+        addNewGameButton();
+    }
+
+    public void addDrawInfo() {
+        infoBox.setText("it's a draw");
+        addNewGameButton();
     }
 
     public void resetWinnerText() {
         infoBoxContainer.getChildren().clear();
         infoBoxContainer.getChildren().add(infoBox);
+    }
+
+    public void addNewGameButton() {
+        Button newGame = new Button("New Game");
+        newGame.setOnMouseClicked(event -> controller.handleNewGame());
+        infoBoxContainer.getChildren().add(newGame);
     }
 
 

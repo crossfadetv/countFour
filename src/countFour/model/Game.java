@@ -14,6 +14,7 @@ public class Game extends Observable {
     private Stone[][] stoneContainerGrid = new Stone[COLUMNS][ROWS];
 
     private boolean hasGameEnded = false;
+    private boolean isDraw = false;
 
     public Stone playMove(int column) {
         column = column - 1;
@@ -118,7 +119,19 @@ public class Game extends Observable {
                 }
             }
         }
-    }
+        //check for draw
+        int draw = 0;
+        for(Player p : players){
+            draw += p.countStones();
+        }
+        if(draw == 0){
+            System.out.println("draw");
+            setHasGameEnded(true);
+            setIsDraw(true);
+        }
+
+        }
+
 
     public void startGame(String redPlayerName, String yellowPlayerName) {
         Player redPlayer = new Player(redPlayerName, Color.RED, true);
@@ -134,6 +147,14 @@ public class Game extends Observable {
 
     public boolean getHasGameEnded() {
         return hasGameEnded;
+    }
+
+    public void setIsDraw(boolean isDraw){
+        this.isDraw = isDraw;
+    }
+
+    public boolean getIsDraw(){
+        return isDraw;
     }
 
    }

@@ -35,7 +35,11 @@ public class Controller {
     }
 
     public void handleEndGame() {
-        playScreen.addWinnerInfo();
+        if(game.getIsDraw()){
+            playScreen.addDrawInfo();
+        }
+        else{
+        playScreen.addWinnerInfo();}
     }
 
     public String getWinner() {
