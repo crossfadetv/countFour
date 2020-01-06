@@ -3,6 +3,7 @@ package countFour;
 import countFour.model.Game;
 import countFour.view.EntryScreen;
 import countFour.view.PlayScreen;
+//import countFour.view.WinScreen;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -17,6 +18,7 @@ public class Main extends Application {
         controller = new Controller(game);
         controller.setPlayScreen(new PlayScreen(controller, primaryStage));
         controller.setEntryScreen(new EntryScreen(controller, primaryStage));
+       // controller.setWinScreen(new WinScreen(controller, primaryStage));
         controller.buildView();
     }
 

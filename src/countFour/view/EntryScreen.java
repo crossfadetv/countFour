@@ -13,17 +13,17 @@ import javafx.stage.Stage;
 public class EntryScreen extends Pane {
     private Controller controller;
     private Stage primaryStage;
+    private Scene entryScene;
 
     public EntryScreen(Controller controller, Stage primaryStage) {
         super();
         this.controller = controller;
         this.primaryStage = primaryStage;
-
+        this.entryScene = new Scene(buildEntryScreen());
     }
 
     public void showScreen() {
-        Scene scene = new Scene(buildEntryScreen());
-        primaryStage.setScene(scene);
+        primaryStage.setScene(entryScene);
         primaryStage.show();
         primaryStage.setTitle("4 Gewinnt");
 
