@@ -26,7 +26,7 @@ public class Player {
         this.name = name;
     }
 
-      public Color getColor() {
+    public Color getColor() {
         return color;
     }
 
@@ -47,9 +47,10 @@ public class Player {
     public void fillStones(){
         for(int x=0; x<21;x++){
             stones.add(new Stone(this));
-        }}
+        }
+    }
 
-        public void changeTurn(){
+    public void changeTurn(){
             this.turn = !this.turn;
         }
     }

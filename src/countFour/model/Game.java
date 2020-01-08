@@ -101,7 +101,6 @@ public class Game extends Observable {
                 }
             }
         }
-
         //ascending diagonals
         for (int x = 0; x < COLUMNS - 3; x++) {
             for (int y = 3; y < ROWS; y++) {
@@ -129,9 +128,7 @@ public class Game extends Observable {
             setHasGameEnded(true);
             setIsDraw(true);
         }
-
-        }
-
+    }
 
     public void startGame(String redPlayerName, String yellowPlayerName) {
         Player redPlayer = new Player(redPlayerName, Color.RED, true);
