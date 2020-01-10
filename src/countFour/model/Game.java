@@ -16,10 +16,11 @@ public class Game extends Observable {
     private boolean hasGameEnded = false;
     private boolean isDraw = false;
 
+
     public Stone playMove(int column) {
         column = column - 1;
         for (int row = ROWS - 1; row >= 0; row--) {
-            if (stoneContainerGrid[column][row] == null && row <= 5) {
+            if (stoneContainerGrid[column][row] == null /*&& row <= 5*/) {
                 Stone stone = getPlayerOnTurn().playStone();
                 stoneContainerGrid[column][row] = stone;
                 stone.setTranslateX(column * FIELDSIZE + 50); //hässlich mit dem 50
@@ -85,6 +86,7 @@ public class Game extends Observable {
 
         //check diagonal wins
         //descending
+
         for (int x = 0; x < COLUMNS - 3; x++) {
             for (int y = 0; y < ROWS - 3; y++) {
                 for (int offset = 1; offset <= 3; ) {
@@ -118,6 +120,7 @@ public class Game extends Observable {
                 }
             }
         }
+
         //check for draw
         int draw = 0;
         for(Player p : players){

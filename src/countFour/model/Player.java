@@ -22,7 +22,7 @@ public class Player {
         return name;
     }
 
-    public void setName(String name){
+    public void setName(String name) {
         this.name = name;
     }
 
@@ -34,6 +34,9 @@ public class Player {
         return turn;
     }
 
+    public ArrayList getStones() {
+        return stones;
+    }
     public Stone playStone(){
         Stone stone = stones.get(stones.size()-1);
         stones.remove(stones.size()-1);

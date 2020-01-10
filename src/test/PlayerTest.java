@@ -28,13 +28,20 @@ public class PlayerTest {
         assertEquals(21,stoneAmount);
     }
     @Test
+    public void testSetName(){
+        player.setName("Other Name");
+        assertEquals("Other Name",player.getName());
+    }
+    @Test
     public void testFillStones() {
         assertEquals(21, player.countStones());
     }
     @Test
     public void testPlayStone() {
+        Stone testStone = (Stone) player.getStones().get(20);
         Stone stone = player.playStone();
         int amount= player.countStones();
         assertEquals(20,amount);
+        assertEquals(testStone,stone);
     }
 }
