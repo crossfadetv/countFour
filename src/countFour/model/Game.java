@@ -12,9 +12,12 @@ public class Game extends Observable {
     public static final int FIELDSIZE = 100;
     private ArrayList<Player> players;
     private Stone[][] stoneContainerGrid = new Stone[COLUMNS][ROWS];
-
     private boolean hasGameEnded = false;
     private boolean isDraw = false;
+
+    public ArrayList getPlayers() {
+        return players;
+    }
 
 
     public Stone playMove(int column) {
@@ -53,6 +56,7 @@ public class Game extends Observable {
             player.changeTurn();
         }
     }
+
 
     public void checkForWinner(Player player, int column, int row) {
         int counter = 0;

@@ -3,9 +3,8 @@ package test;
 import countFour.model.Player;
 import countFour.model.Stone;
 import javafx.scene.paint.Color;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
+import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.MatcherAssert.assertThat;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -15,33 +14,33 @@ public class PlayerTest {
     @Test
     public void testGetName() {
         String name = player.getName();
-        assertEquals("Max Mustermann", name);
+        assertThat("Max Mustermann", is(name));
     }
     @Test
     public void testGetColor() {
         Color color = player.getColor();
-        assertEquals(Color.RED, color);
+        assertThat(Color.RED, is(color));
     }
     @Test
     public void testCountStones() {
         int stoneAmount = player.countStones();
-        assertEquals(21,stoneAmount);
+        assertThat(21,is(stoneAmount));
     }
     @Test
     public void testSetName(){
         player.setName("Other Name");
-        assertEquals("Other Name",player.getName());
+        assertThat("Other Name",is(player.getName()));
     }
     @Test
     public void testFillStones() {
-        assertEquals(21, player.countStones());
+        assertThat(21, is(player.countStones()));
     }
     @Test
     public void testPlayStone() {
         Stone testStone = (Stone) player.getStones().get(20);
         Stone stone = player.playStone();
         int amount= player.countStones();
-        assertEquals(20,amount);
-        assertEquals(testStone,stone);
+        assertThat(20,is(amount));
+        assertThat(testStone,is(stone));
     }
 }
