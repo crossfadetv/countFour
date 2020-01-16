@@ -18,7 +18,6 @@ public class Main extends Application {
         controller = new Controller(game);
         controller.setPlayScreen(new PlayScreen(controller, primaryStage));
         controller.setEntryScreen(new EntryScreen(controller, primaryStage));
-       // controller.setWinScreen(new WinScreen(controller, primaryStage));
         controller.buildView();
     }
 

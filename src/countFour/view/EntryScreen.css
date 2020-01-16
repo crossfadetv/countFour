@@ -1,0 +1,41 @@
+.root {
+    -fx-font-family: Ebrima;
+    -fx-background-color: #0b02aa;
+}
+.label {
+    -fx-alignment: center;
+    -fx-font-size: 15;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+#continue-btn {
+
+}
+#start-btn {
+    -fx-pref-height: 100px;
+    -fx-pref-width: 100px;
+    -fx-font-size: 20;
+    -fx-background-radius: 100;
+    -fx-background-color: white;
+    -fx-font-weight: bold;
+}
+#start-btn:hover {
+    -fx-background-color: radial-gradient(radius 180%, #cccccc,white);
+}
+.button {
+
+}
+.banner {
+    -fx-background-image: url("banner_entryScreen.jpg");
+}
+#redfield {
+    -fx-control-inner-background: red;
+}
+#yellowfield {
+    -fx-control-inner-background: yellow;
+}
+.text-field {
+
+    -fx-font-size: 20;
+    -fx-font-weight: bold;
+}

@@ -1,16 +1,26 @@
 package countFour.view;
 
 import countFour.Controller;
+import javafx.collections.ObservableList;
+import javafx.geometry.HPos;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.*;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 
-public class EntryScreen extends Pane {
+public class EntryScreen extends VBox {
     private Controller controller;
     private Stage primaryStage;
     private Scene entryScene;
@@ -20,42 +30,83 @@ public class EntryScreen extends Pane {
         this.controller = controller;
         this.primaryStage = primaryStage;
         this.entryScene = new Scene(buildEntryScreen());
+        primaryStage.setMinWidth(700.0);
     }
 
     public void showScreen() {
         primaryStage.setScene(entryScene);
+        entryScene.getStylesheets().add(getClass().getResource("EntryScreen.css").toExternalForm());
         primaryStage.show();
         primaryStage.setTitle("4 Gewinnt");
 
     }
 
+    //get Banner Image
+    public FileInputStream getImage() {
+
+        FileInputStream fis = null;
+        try {
+            fis = new FileInputStream("src/countFour/view/bannerEntryScreen.jpg");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return fis;
+    }
+
     private Parent buildEntryScreen() {
-        this.setPrefSize(700, 800);
+        int windowWidth = 700;
+        int windowHeight = 400;
+        this.setPrefSize(windowWidth, windowHeight);
 
-        Label newGameText = new Label("NEW GAME");
-        newGameText.setTranslateX(200);
-        newGameText.setTranslateY(150);
-        newGameText.setFont(Font.font(20));
+        //create Banner HBox
+        Image bannerImage = new Image(getImage());
+        ImageView showBanner = new ImageView(bannerImage);
+        showBanner.setFitWidth(windowWidth);
+        showBanner.setPreserveRatio(true);
+        HBox banner = new HBox(showBanner);
+        banner.setAlignment(Pos.TOP_CENTER);
 
-        Label redLabel = new Label("RED Player");
-        redLabel.setTranslateX(100);
-        redLabel.setTranslateY(300);
+        //Create Input Form
+        HBox form = new HBox();
+        form.setAlignment(Pos.TOP_CENTER);
+
+        GridPane grid = new GridPane();
+        Label instruction = new Label ("Gebt eure Namen ein:");
         TextField redPlayer = new TextField();
-        redPlayer.setTranslateX(200);
-        redPlayer.setTranslateY(300);
-        Label yellowLabel = new Label("YELLOW Player");
-        yellowLabel.setTranslateX(100);
-        yellowLabel.setTranslateY(350);
+        redPlayer.setId("redfield");
         TextField yellowPlayer = new TextField();
-        yellowPlayer.setTranslateX(200);
-        yellowPlayer.setTranslateY(350);
+        yellowPlayer.setId("yellowfield");
+        Button continueGameButton = new Button("letztes Spiel fortsetzen");
+        continueGameButton.setId("continue-btn");
+        grid.add(instruction,0,0);
+        grid.add(redPlayer,0,1);
+        grid.add(yellowPlayer,0,2);
+        grid.add(continueGameButton,0,3);
+        grid.setVgap(10);
+        grid.setHgap(5);
+        grid.setGridLinesVisible(false);
+        grid.setAlignment(Pos.CENTER);
+        grid.setMargin(continueGameButton, new Insets(20,0,0,0));
 
-        Button startGameButton = new Button("Start");
-        startGameButton.setTranslateX(400);
-        startGameButton.setTranslateY(400);
+        Button startGameButton = new Button("Start!");
+        startGameButton.setId("start-btn");
+        startGameButton.setOnMouseEntered(event -> startGameButton.setCursor(Cursor.HAND));
+
+        form.getChildren().addAll(grid,startGameButton);
+        form.setMargin(startGameButton, new Insets(0,0,25,20));
+        form.setAlignment(Pos.CENTER);
+
+
+        this.setMargin(form, new Insets(40, 0, 0, 0));
+
+        ObservableList list = this.getChildren();
+
+        list.addAll(banner,form);
+
+
         startGameButton.setOnKeyPressed(event -> controller.handleStartGame(redPlayer.getText(), yellowPlayer.getText()));
         startGameButton.setOnMouseClicked(event -> controller.handleStartGame(redPlayer.getText(), yellowPlayer.getText()));
-        this.getChildren().addAll(newGameText, redLabel, redPlayer, yellowPlayer, yellowLabel, startGameButton);
+
         return this;
     }
 }
