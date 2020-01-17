@@ -8,8 +8,10 @@ import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -30,7 +32,7 @@ public class PlayScreen extends GridPane {
     private Stage primaryStage;
     private Scene playScene;
     private Pane stonePane = new Pane();
-    private TextArea infoBox;
+    private Label infoBox;
     private VBox infoBoxContainer;
     private Controller controller;
     private ArrayList<Polygon> positionArrows;
@@ -47,6 +49,7 @@ public class PlayScreen extends GridPane {
 
     public Parent buildPlayScreen() {
         this.getChildren().add(stonePane);
+        stonePane.setId("stone-pane");
         this.setPrefSize(700, 800);
 
         for (int x = 1; x <= COLUMNS; x++) {
@@ -97,19 +100,26 @@ public class PlayScreen extends GridPane {
 
 
     private VBox getInfoBox() {
-        infoBox = new TextArea();
+
+        infoBox = new Label();
+
         infoBoxContainer = new VBox(infoBox);
+        infoBoxContainer.setAlignment(Pos.CENTER);
         infoBoxContainer.setPrefSize(700, 100);
-        infoBoxContainer.setTranslateX(0);
+        //infoBoxContainer.setTranslateX(0);
         infoBoxContainer.setTranslateY(700);
         return infoBoxContainer;
     }
 
 
     public void showScreen() {
-        infoBox.setText(controller.showPlayer() + " it's your turn!");
+        playScene.getStylesheets().add(getClass().getResource("PlayScreen.css").toExternalForm());
+        infoBox.setId("red-notification");
+        infoBox.setText(controller.showPlayer().toUpperCase() + ", du bist am Zug!");
         primaryStage.setScene(playScene);
         primaryStage.show();
+
+
 
     }
 
@@ -117,13 +127,18 @@ public class PlayScreen extends GridPane {
         try {
             stonePane.getChildren().add(controller.handlePlayMove(column));
             if (!controller.hasGameEnded()) {
-                infoBox.setText(controller.showPlayer() + " it's your turn!");
+                if (controller.getGame().getPlayerOnTurn().getColor().equals(Color.RED)) {
+                    infoBox.setId("red-notification");
+                } else {
+                    infoBox.setId("yellow-notification");
+                }
+                infoBox.setText(controller.showPlayer() + ", du bist am Zug!");
             } else {
                 controller.handleEndGame();
                 disablePositionArrows();
             }
         } catch (NullPointerException e) {
-            infoBox.setText(controller.showPlayer() + " it's your turn!" + "\n" + "Column is full!");
+            infoBox.setText(controller.showPlayer() + ", du bist am Zug!" + "\n" + "Wähle eine andere Reihe!");
         }
     }
 

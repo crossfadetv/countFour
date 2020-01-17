@@ -20,6 +20,9 @@ public class Controller {
         entryScreen.showScreen();
     }
 
+    public Game getGame() {
+        return game;
+    }
 
     public Stone handlePlayMove(int column) {
         return game.playMove(column);

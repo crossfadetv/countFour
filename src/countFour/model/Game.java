@@ -1,9 +1,22 @@
 package countFour.model;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
+import javafx.util.Duration;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Observable;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 
 public class Game extends Observable {
@@ -20,14 +33,44 @@ public class Game extends Observable {
     }
 
 
+
     public Stone playMove(int column) {
         column = column - 1;
         for (int row = ROWS - 1; row >= 0; row--) {
             if (stoneContainerGrid[column][row] == null /*&& row <= 5*/) {
                 Stone stone = getPlayerOnTurn().playStone();
                 stoneContainerGrid[column][row] = stone;
+                double dropDuration = 500;
+                //Animation Setup
+
+                //Audio Setup
+                ScheduledExecutorService scheduler
+                        = Executors.newSingleThreadScheduledExecutor();
+
+                Runnable task = new Runnable() {
+                    public void run() {
+                        Media drop = new Media(new File("src/countFour/view/audio/drop.wav").toURI().toString());
+                        MediaPlayer playDrop = new MediaPlayer(drop);
+                        playDrop.setAutoPlay(true);
+                        playDrop.play();
+                    }
+                };
+                int delay = (int) dropDuration;
+                scheduler.schedule(task, delay, TimeUnit.MILLISECONDS);
+                scheduler.shutdown();
+                //Set Start Position
                 stone.setTranslateX(column * FIELDSIZE + 50); //hässlich mit dem 50
-                stone.setTranslateY(row * FIELDSIZE + 150); //hässlich mit dem 150
+                stone.setTranslateY(50);
+                //Set End Position
+                KeyFrame startPos = new KeyFrame(Duration.millis(dropDuration),
+                        new KeyValue(stone.translateXProperty(),column*FIELDSIZE+50),
+                        new KeyValue(stone.translateYProperty(),row * FIELDSIZE + 150));
+                //Invoke Animation
+                Timeline tl = new Timeline();
+                tl.getKeyFrames().addAll(startPos);
+                tl.setCycleCount(1);
+                tl.play();
+
                 System.out.println(column + " " + row);
                 checkForWinner(getPlayerOnTurn(), column, row);
                 if (!getHasGameEnded()) {

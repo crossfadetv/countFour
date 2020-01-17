@@ -35,7 +35,7 @@
     -fx-control-inner-background: yellow;
 }
 .text-field {
-
+    -fx-text-fill: black;
     -fx-font-size: 20;
     -fx-font-weight: bold;
 }

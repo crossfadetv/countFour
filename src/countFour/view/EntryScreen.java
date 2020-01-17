@@ -2,7 +2,6 @@ package countFour.view;
 
 import countFour.Controller;
 import javafx.collections.ObservableList;
-import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
@@ -12,8 +11,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
-import javafx.scene.shape.Circle;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -37,11 +34,11 @@ public class EntryScreen extends VBox {
         primaryStage.setScene(entryScene);
         entryScene.getStylesheets().add(getClass().getResource("EntryScreen.css").toExternalForm());
         primaryStage.show();
-        primaryStage.setTitle("4 Gewinnt");
+        primaryStage.setTitle("VIER GEWINNT");
 
     }
 
-    //get Banner Image
+    //get the Banner Img File
     public FileInputStream getImage() {
 
         FileInputStream fis = null;
@@ -58,7 +55,8 @@ public class EntryScreen extends VBox {
         int windowHeight = 400;
         this.setPrefSize(windowWidth, windowHeight);
 
-        //create Banner HBox
+
+        //create Banner Img
         Image bannerImage = new Image(getImage());
         ImageView showBanner = new ImageView(bannerImage);
         showBanner.setFitWidth(windowWidth);
@@ -69,7 +67,6 @@ public class EntryScreen extends VBox {
         //Create Input Form
         HBox form = new HBox();
         form.setAlignment(Pos.TOP_CENTER);
-
         GridPane grid = new GridPane();
         Label instruction = new Label ("Gebt eure Namen ein:");
         TextField redPlayer = new TextField();
@@ -103,7 +100,7 @@ public class EntryScreen extends VBox {
 
         list.addAll(banner,form);
 
-
+        //set Start Btn Event
         startGameButton.setOnKeyPressed(event -> controller.handleStartGame(redPlayer.getText(), yellowPlayer.getText()));
         startGameButton.setOnMouseClicked(event -> controller.handleStartGame(redPlayer.getText(), yellowPlayer.getText()));
 
