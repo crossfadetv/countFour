@@ -7,11 +7,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
-
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.concurrent.Executors;
@@ -27,6 +23,7 @@ public class Game extends Observable {
     private Stone[][] stoneContainerGrid = new Stone[COLUMNS][ROWS];
     private boolean hasGameEnded = false;
     private boolean isDraw = false;
+    private boolean muteAudio = false;
 
     public ArrayList getPlayers() {
         return players;
@@ -40,24 +37,31 @@ public class Game extends Observable {
             if (stoneContainerGrid[column][row] == null /*&& row <= 5*/) {
                 Stone stone = getPlayerOnTurn().playStone();
                 stoneContainerGrid[column][row] = stone;
-                double dropDuration = 500;
+
+
                 //Animation Setup
-
+                double dropDuration = 500;
                 //Audio Setup
-                ScheduledExecutorService scheduler
-                        = Executors.newSingleThreadScheduledExecutor();
+                if (!this.muteAudio) {
 
-                Runnable task = new Runnable() {
-                    public void run() {
-                        Media drop = new Media(new File("src/countFour/view/audio/drop.wav").toURI().toString());
+                    ScheduledExecutorService scheduler
+                            = Executors.newSingleThreadScheduledExecutor();
+
+                    Runnable task = () -> {
+                        Media drop = new Media(new File("src/countFour/view/audio/drop.mp3").toURI().toString());
                         MediaPlayer playDrop = new MediaPlayer(drop);
                         playDrop.setAutoPlay(true);
+                        System.out.println("Start");
                         playDrop.play();
-                    }
-                };
-                int delay = (int) dropDuration;
-                scheduler.schedule(task, delay, TimeUnit.MILLISECONDS);
-                scheduler.shutdown();
+                    };
+                    int delay = (int) dropDuration-50;
+                    scheduler.schedule(task, delay, TimeUnit.MILLISECONDS);
+
+                    //scheduler.shutdown();
+                    System.out.println("Drop!!!");
+                }
+
+
                 //Set Start Position
                 stone.setTranslateX(column * FIELDSIZE + 50); //hässlich mit dem 50
                 stone.setTranslateY(50);
@@ -202,6 +206,12 @@ public class Game extends Observable {
 
     public boolean getIsDraw(){
         return isDraw;
+    }
+    public void setMuteAudio() {
+            this.muteAudio=!this.muteAudio;
+    }
+    public boolean getMuteAudio() {
+        return muteAudio;
     }
 
    }

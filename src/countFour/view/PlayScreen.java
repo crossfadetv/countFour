@@ -14,6 +14,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
@@ -21,7 +23,11 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class PlayScreen extends GridPane {
     //TODO: discuss where to define.
@@ -102,11 +108,9 @@ public class PlayScreen extends GridPane {
     private VBox getInfoBox() {
 
         infoBox = new Label();
-
         infoBoxContainer = new VBox(infoBox);
         infoBoxContainer.setAlignment(Pos.CENTER);
         infoBoxContainer.setPrefSize(700, 100);
-        //infoBoxContainer.setTranslateX(0);
         infoBoxContainer.setTranslateY(700);
         return infoBoxContainer;
     }
@@ -147,8 +151,27 @@ public class PlayScreen extends GridPane {
     }
 
     public void addWinnerInfo() {
-        infoBox.setText(controller.getWinner() + " you are the winner");
+        //Audio Setup
+        if (!controller.getGame().getMuteAudio()) {
+            double audioDelay = 700;
+            ScheduledExecutorService scheduler
+                    = Executors.newSingleThreadScheduledExecutor();
+
+            Runnable task = new Runnable() {
+                public void run() {
+                    Media winnerSound = new Media(new File("src/countFour/view/audio/win.mp3").toURI().toString());
+                    MediaPlayer playWinnerSound = new MediaPlayer(winnerSound);
+                    playWinnerSound.setAutoPlay(true);
+                    playWinnerSound.play();
+                }
+            };
+            int delay = (int) audioDelay;
+            scheduler.schedule(task, delay, TimeUnit.MILLISECONDS);
+            //scheduler.shutdown();
+        }
+        infoBox.setText(controller.getWinner() + " ,du hast gewonnen!");
         addNewGameButton();
+
     }
 
     public void addDrawInfo() {

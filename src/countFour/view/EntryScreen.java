@@ -27,7 +27,8 @@ public class EntryScreen extends VBox {
         this.controller = controller;
         this.primaryStage = primaryStage;
         this.entryScene = new Scene(buildEntryScreen());
-        primaryStage.setMinWidth(700.0);
+        primaryStage.setMinWidth(715);
+        primaryStage.setMaxWidth(715);
     }
 
     public void showScreen() {
@@ -35,7 +36,6 @@ public class EntryScreen extends VBox {
         entryScene.getStylesheets().add(getClass().getResource("EntryScreen.css").toExternalForm());
         primaryStage.show();
         primaryStage.setTitle("VIER GEWINNT");
-
     }
 
     //get the Banner Img File

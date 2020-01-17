@@ -8,9 +8,6 @@
     -fx-text-fill: white;
     -fx-font-weight: bold;
 }
-#continue-btn {
-
-}
 #start-btn {
     -fx-pref-height: 100px;
     -fx-pref-width: 100px;
@@ -21,9 +18,6 @@
 }
 #start-btn:hover {
     -fx-background-color: radial-gradient(radius 180%, #cccccc,white);
-}
-.button {
-
 }
 .banner {
     -fx-background-image: url("banner_entryScreen.jpg");

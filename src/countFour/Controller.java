@@ -9,7 +9,6 @@ import countFour.view.PlayScreen;
 public class Controller {
     private EntryScreen entryScreen;
     private PlayScreen playScreen;
-  //  private WinScreen winScreen;
     private Game game;
 
     public Controller(Game game) {
