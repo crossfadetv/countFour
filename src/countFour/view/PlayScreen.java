@@ -8,10 +8,14 @@ import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
@@ -19,7 +23,11 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class PlayScreen extends GridPane {
     //TODO: discuss where to define.
@@ -30,7 +38,7 @@ public class PlayScreen extends GridPane {
     private Stage primaryStage;
     private Scene playScene;
     private Pane stonePane = new Pane();
-    private TextArea infoBox;
+    private Label infoBox;
     private VBox infoBoxContainer;
     private Controller controller;
     private ArrayList<Polygon> positionArrows;
@@ -47,6 +55,7 @@ public class PlayScreen extends GridPane {
 
     public Parent buildPlayScreen() {
         this.getChildren().add(stonePane);
+        stonePane.setId("stone-pane");
         this.setPrefSize(700, 800);
 
         for (int x = 1; x <= COLUMNS; x++) {
@@ -97,19 +106,24 @@ public class PlayScreen extends GridPane {
 
 
     private VBox getInfoBox() {
-        infoBox = new TextArea();
+
+        infoBox = new Label();
         infoBoxContainer = new VBox(infoBox);
+        infoBoxContainer.setAlignment(Pos.CENTER);
         infoBoxContainer.setPrefSize(700, 100);
-        infoBoxContainer.setTranslateX(0);
         infoBoxContainer.setTranslateY(700);
         return infoBoxContainer;
     }
 
 
     public void showScreen() {
-        infoBox.setText(controller.showPlayer() + " it's your turn!");
+        playScene.getStylesheets().add(getClass().getResource("PlayScreen.css").toExternalForm());
+        infoBox.setId("red-notification");
+        infoBox.setText(controller.showPlayer().toUpperCase() + ", du bist am Zug!");
         primaryStage.setScene(playScene);
         primaryStage.show();
+
+
 
     }
 
@@ -117,13 +131,18 @@ public class PlayScreen extends GridPane {
         try {
             stonePane.getChildren().add(controller.handlePlayMove(column));
             if (!controller.hasGameEnded()) {
-                infoBox.setText(controller.showPlayer() + " it's your turn!");
+                if (controller.getGame().getPlayerOnTurn().getColor().equals(Color.RED)) {
+                    infoBox.setId("red-notification");
+                } else {
+                    infoBox.setId("yellow-notification");
+                }
+                infoBox.setText(controller.showPlayer() + ", du bist am Zug!");
             } else {
                 controller.handleEndGame();
                 disablePositionArrows();
             }
         } catch (NullPointerException e) {
-            infoBox.setText(controller.showPlayer() + " it's your turn!" + "\n" + "Column is full!");
+            infoBox.setText(controller.showPlayer() + ", du bist am Zug!" + "\n" + "Wähle eine andere Reihe!");
         }
     }
 
@@ -132,8 +151,27 @@ public class PlayScreen extends GridPane {
     }
 
     public void addWinnerInfo() {
-        infoBox.setText(controller.getWinner() + " you are the winner");
+        //Audio Setup
+        if (!controller.getGame().getMuteAudio()) {
+            double audioDelay = 700;
+            ScheduledExecutorService scheduler
+                    = Executors.newSingleThreadScheduledExecutor();
+
+            Runnable task = new Runnable() {
+                public void run() {
+                    Media winnerSound = new Media(new File("src/countFour/view/audio/win.mp3").toURI().toString());
+                    MediaPlayer playWinnerSound = new MediaPlayer(winnerSound);
+                    playWinnerSound.setAutoPlay(true);
+                    playWinnerSound.play();
+                }
+            };
+            int delay = (int) audioDelay;
+            scheduler.schedule(task, delay, TimeUnit.MILLISECONDS);
+            //scheduler.shutdown();
+        }
+        infoBox.setText(controller.getWinner() + " ,du hast gewonnen!");
         addNewGameButton();
+
     }
 
     public void addDrawInfo() {

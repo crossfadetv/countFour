@@ -1,9 +1,18 @@
 package countFour.model;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
-
+import javafx.util.Duration;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Observable;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 
 public class Game extends Observable {
@@ -14,10 +23,12 @@ public class Game extends Observable {
     private Stone[][] stoneContainerGrid = new Stone[COLUMNS][ROWS];
     private boolean hasGameEnded = false;
     private boolean isDraw = false;
+    private boolean muteAudio = false;
 
     public ArrayList getPlayers() {
         return players;
     }
+
 
 
     public Stone playMove(int column) {
@@ -26,8 +37,44 @@ public class Game extends Observable {
             if (stoneContainerGrid[column][row] == null /*&& row <= 5*/) {
                 Stone stone = getPlayerOnTurn().playStone();
                 stoneContainerGrid[column][row] = stone;
+
+
+                //Animation Setup
+                double dropDuration = 500;
+                //Audio Setup
+                if (!this.muteAudio) {
+
+                    ScheduledExecutorService scheduler
+                            = Executors.newSingleThreadScheduledExecutor();
+
+                    Runnable task = () -> {
+                        Media drop = new Media(new File("src/countFour/view/audio/drop.mp3").toURI().toString());
+                        MediaPlayer playDrop = new MediaPlayer(drop);
+                        playDrop.setAutoPlay(true);
+                        System.out.println("Start");
+                        playDrop.play();
+                    };
+                    int delay = (int) dropDuration-50;
+                    scheduler.schedule(task, delay, TimeUnit.MILLISECONDS);
+
+                    //scheduler.shutdown();
+                    System.out.println("Drop!!!");
+                }
+
+
+                //Set Start Position
                 stone.setTranslateX(column * FIELDSIZE + 50); //hässlich mit dem 50
-                stone.setTranslateY(row * FIELDSIZE + 150); //hässlich mit dem 150
+                stone.setTranslateY(50);
+                //Set End Position
+                KeyFrame startPos = new KeyFrame(Duration.millis(dropDuration),
+                        new KeyValue(stone.translateXProperty(),column*FIELDSIZE+50),
+                        new KeyValue(stone.translateYProperty(),row * FIELDSIZE + 150));
+                //Invoke Animation
+                Timeline tl = new Timeline();
+                tl.getKeyFrames().addAll(startPos);
+                tl.setCycleCount(1);
+                tl.play();
+
                 System.out.println(column + " " + row);
                 checkForWinner(getPlayerOnTurn(), column, row);
                 if (!getHasGameEnded()) {
@@ -159,6 +206,12 @@ public class Game extends Observable {
 
     public boolean getIsDraw(){
         return isDraw;
+    }
+    public void setMuteAudio() {
+            this.muteAudio=!this.muteAudio;
+    }
+    public boolean getMuteAudio() {
+        return muteAudio;
     }
 
    }

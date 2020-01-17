@@ -52,7 +52,6 @@ public class Player {
             stones.add(new Stone(this));
         }
     }
-
     public void changeTurn(){
             this.turn = !this.turn;
         }
