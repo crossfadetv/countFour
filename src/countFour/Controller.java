@@ -56,11 +56,6 @@ public class Controller {
         this.playScreen = playScreen;
     }
 
-    /*public void setWinScreen(WinScreen winScreen) {
-        this.winScreen = winScreen;
-    }*/
-
-
     public String showPlayer() {
         return game.getPlayerOnTurn().getName();
     }
@@ -73,5 +68,8 @@ public class Controller {
         buildView();
     }
 
+    public int getLastPlayedRow(){
+      return  game.getLastPlayedRow();
+    }
 
 }

@@ -7,6 +7,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -21,6 +22,8 @@ public class EntryScreen extends VBox {
     private Controller controller;
     private Stage primaryStage;
     private Scene entryScene;
+    private TextField redPlayer;
+    private TextField yellowPlayer;
 
     public EntryScreen(Controller controller, Stage primaryStage) {
         super();
@@ -55,23 +58,31 @@ public class EntryScreen extends VBox {
         int windowHeight = 400;
         this.setPrefSize(windowWidth, windowHeight);
 
+        HBox banner = createBannerImage(windowWidth);
+        HBox form = createForm();
 
-        //create Banner Img
+        this.setMargin(form, new Insets(40, 0, 0, 0));
+        ObservableList list = this.getChildren();
+        list.addAll(banner,form);
+        return this;
+    }
+
+    private HBox createBannerImage(int windowWidth){
         Image bannerImage = new Image(getImage());
         ImageView showBanner = new ImageView(bannerImage);
         showBanner.setFitWidth(windowWidth);
         showBanner.setPreserveRatio(true);
         HBox banner = new HBox(showBanner);
         banner.setAlignment(Pos.TOP_CENTER);
+        return banner;
+    }
 
-        //Create Input Form
-        HBox form = new HBox();
-        form.setAlignment(Pos.TOP_CENTER);
+    private GridPane createInputForm(){
         GridPane grid = new GridPane();
         Label instruction = new Label ("Gebt eure Namen ein:");
-        TextField redPlayer = new TextField();
+        redPlayer = new TextField();
         redPlayer.setId("redfield");
-        TextField yellowPlayer = new TextField();
+        yellowPlayer = new TextField();
         yellowPlayer.setId("yellowfield");
         Button continueGameButton = new Button("letztes Spiel fortsetzen");
         continueGameButton.setId("continue-btn");
@@ -84,26 +95,39 @@ public class EntryScreen extends VBox {
         grid.setGridLinesVisible(false);
         grid.setAlignment(Pos.CENTER);
         grid.setMargin(continueGameButton, new Insets(20,0,0,0));
+        return grid;
+    }
 
+    private HBox createForm() {
+        HBox form = new HBox();
+        form.setAlignment(Pos.TOP_CENTER);
         Button startGameButton = new Button("Start!");
-        startGameButton.setId("start-btn");
         startGameButton.setOnMouseEntered(event -> startGameButton.setCursor(Cursor.HAND));
-
-        form.getChildren().addAll(grid,startGameButton);
+        startGameButton.setOnKeyPressed(event -> tryStartGame(redPlayer.getText(), yellowPlayer.getText()));
+        startGameButton.setOnMouseClicked(event -> tryStartGame(redPlayer.getText(), yellowPlayer.getText()));
+        form.getChildren().addAll(createInputForm(),startGameButton);
+        startGameButton.setId("start-btn");
         form.setMargin(startGameButton, new Insets(0,0,25,20));
         form.setAlignment(Pos.CENTER);
+        return form;
+    }
 
+     private void tryStartGame(String redPlayer, String yellowPlayer){
+        if(redPlayer.isEmpty()){
+            Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+            errorAlert.setHeaderText("Wie heisst der rote Spieler");
+            errorAlert.setContentText("Bitte einen Namen eingeben");
+            errorAlert.showAndWait();
+        }
+        else if(yellowPlayer.isEmpty()){
+            Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+            errorAlert.setHeaderText("Wie heisst der gelbe Spieler");
+            errorAlert.setContentText("Bitte einen Namen eingeben");
+            errorAlert.showAndWait();
+        }
+        else{
+            controller.handleStartGame(redPlayer, yellowPlayer);
+        }
 
-        this.setMargin(form, new Insets(40, 0, 0, 0));
-
-        ObservableList list = this.getChildren();
-
-        list.addAll(banner,form);
-
-        //set Start Btn Event
-        startGameButton.setOnKeyPressed(event -> controller.handleStartGame(redPlayer.getText(), yellowPlayer.getText()));
-        startGameButton.setOnMouseClicked(event -> controller.handleStartGame(redPlayer.getText(), yellowPlayer.getText()));
-
-        return this;
     }
 }

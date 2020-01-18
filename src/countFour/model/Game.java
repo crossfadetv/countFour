@@ -1,18 +1,8 @@
 package countFour.model;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import javafx.animation.Timeline;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
-import javafx.util.Duration;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Observable;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 
 public class Game extends Observable {
@@ -21,6 +11,7 @@ public class Game extends Observable {
     public static final int FIELDSIZE = 100;
     private ArrayList<Player> players;
     private Stone[][] stoneContainerGrid = new Stone[COLUMNS][ROWS];
+    private int lastPlayedRow;
     private boolean hasGameEnded = false;
     private boolean isDraw = false;
     private boolean muteAudio = false;
@@ -32,46 +23,11 @@ public class Game extends Observable {
 
 
     public Stone playMove(int column) {
-        column = column - 1;
         for (int row = ROWS - 1; row >= 0; row--) {
             if (stoneContainerGrid[column][row] == null /*&& row <= 5*/) {
                 Stone stone = getPlayerOnTurn().playStone();
                 stoneContainerGrid[column][row] = stone;
-
-
-                //Animation Setup
-                double dropDuration = 500;
-                //Audio Setup
-                if (!this.muteAudio) {
-
-                    ScheduledExecutorService scheduler
-                            = Executors.newSingleThreadScheduledExecutor();
-
-                    Runnable task = () -> {
-                        Media drop = new Media(new File("src/countFour/view/audio/drop.mp3").toURI().toString());
-                        MediaPlayer playDrop = new MediaPlayer(drop);
-                        playDrop.setAutoPlay(true);
-                        playDrop.play();
-                    };
-                    int delay = (int) dropDuration-50;
-                    scheduler.schedule(task, delay, TimeUnit.MILLISECONDS);
-                    //scheduler.shutdown();
-                }
-
-
-                //Set Start Position
-                stone.setTranslateX(column * FIELDSIZE + 50); //hässlich mit dem 50
-                stone.setTranslateY(50);
-                //Set End Position
-                KeyFrame startPos = new KeyFrame(Duration.millis(dropDuration),
-                        new KeyValue(stone.translateXProperty(),column*FIELDSIZE+50),
-                        new KeyValue(stone.translateYProperty(),row * FIELDSIZE + 150));
-                //Invoke Animation
-                Timeline tl = new Timeline();
-                tl.getKeyFrames().addAll(startPos);
-                tl.setCycleCount(1);
-                tl.play();
-
+                lastPlayedRow = row ;
                 System.out.println(column + " " + row);
                 checkForWinner(getPlayerOnTurn(), column, row);
                 if (!getHasGameEnded()) {
@@ -109,7 +65,6 @@ public class Game extends Observable {
         for (int x = row; x <= row + 3; x++) {
             if (x < ROWS && stoneContainerGrid[column][x] != null && stoneContainerGrid[column][x].getColor() == currentColor) {
                 counter++;
-                System.out.println("vertical counter: "+ counter);
                 if (counter > 3) {
                     System.out.println(player.getName() + " has won");
                     setHasGameEnded(true);
@@ -117,16 +72,13 @@ public class Game extends Observable {
                 }
             } else {
                 counter = 0;
-                System.out.println("vertical counter back to 0");
             }
         }
         counter =0;
-        System.out.println("counter is "+ counter);
         //check horizontal wins
         for (int x = 0; x < COLUMNS; x++) {
             if (stoneContainerGrid[x][row] != null && stoneContainerGrid[x][row].getColor() == currentColor) {
                 counter++;
-                System.out.println("horizontal counter: "+ counter);
                 if (counter > 3) {
                     System.out.println(player.getName() + " has won");
                     setHasGameEnded(true);
@@ -134,7 +86,6 @@ public class Game extends Observable {
                 }
             } else {
                 counter = 0;
-                System.out.println("horizontal counter back to 0");
             }
         }
 
@@ -145,7 +96,6 @@ public class Game extends Observable {
                 for (int offset = 1; offset <= 3; ) {
                     if (stoneContainerGrid[x][y] != null && stoneContainerGrid[x + offset][y + offset] != null && stoneContainerGrid[x][y].getColor() == stoneContainerGrid[x + offset][y + offset].getColor()) {
                         offset++;
-                        System.out.println("descending offset: "+ offset);
                         if (offset > 3) {
                             System.out.println(player.getName() + " has won");
                             setHasGameEnded(true);
@@ -163,7 +113,6 @@ public class Game extends Observable {
                 for (int offset = 1; offset <= 3; ) {
                     if (stoneContainerGrid[x][y] != null && stoneContainerGrid[x + offset][y - offset] != null && stoneContainerGrid[x][y].getColor() == stoneContainerGrid[x + offset][y - offset].getColor()) {
                         offset++;
-                        System.out.println("ascending offset: "+ offset);
                         if (offset > 3) {
                             System.out.println(player.getName() + " has won");
                             setHasGameEnded(true);
@@ -211,11 +160,9 @@ public class Game extends Observable {
     public boolean getIsDraw(){
         return isDraw;
     }
-    public void setMuteAudio() {
-            this.muteAudio=!this.muteAudio;
-    }
-    public boolean getMuteAudio() {
-        return muteAudio;
-    }
 
-   }
+
+    public int getLastPlayedRow() {
+        return lastPlayedRow;
+    }
+}
