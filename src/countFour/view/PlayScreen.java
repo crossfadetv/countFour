@@ -46,6 +46,10 @@ public class PlayScreen extends GridPane {
 
     private boolean muteAudio = false;
 
+    /**
+     * @param controller defines controller
+     * @param primaryStage defines primaryStage
+     * */
     public PlayScreen(Controller controller, Stage primaryStage) {
         super();
         this.controller = controller;
@@ -56,7 +60,7 @@ public class PlayScreen extends GridPane {
     }
 
 
-    public Parent buildPlayScreen() {
+    private Parent buildPlayScreen() {
         this.getChildren().add(stonePane);
         stonePane.setId("stone-pane");
         this.setPrefSize(700, 800);
@@ -98,6 +102,9 @@ public class PlayScreen extends GridPane {
         }
     }
 
+    /**
+     * makes arrows clickable
+     * */
     public void enablePositionArrows() {
         for (Polygon positionArrow : positionArrows) {
             positionArrow.setDisable(false);
@@ -115,7 +122,9 @@ public class PlayScreen extends GridPane {
         return infoBoxContainer;
     }
 
-
+    /**
+     * displays the play screen
+     * */
     public void showScreen() {
         playScene.getStylesheets().add(getClass().getResource("PlayScreen.css").toExternalForm());
         infoBox.setId("red-notification");
@@ -124,6 +133,7 @@ public class PlayScreen extends GridPane {
         primaryStage.show();
     }
 
+    //make move if game has not ended and column can still be played
     private void makeMove(int column) {
         try {
             Circle stone = controller.handlePlayMove(column);
@@ -146,10 +156,16 @@ public class PlayScreen extends GridPane {
         }
     }
 
+    /**
+     * clears all stones from the board
+     * */
     public void resetStonePane() {
         stonePane.getChildren().clear();
     }
 
+    /***
+     * displays winner info and sound
+     */
     public void addWinnerInfo() {
         //Audio Setup
         if (!muteAudio) {
@@ -172,25 +188,29 @@ public class PlayScreen extends GridPane {
 
     }
 
+    /**
+     * displays draw info
+     * */
     public void addDrawInfo() {
         infoBox.setText("it's a draw");
         addNewGameButton();
     }
 
+    /**
+     * clears winner info
+     * */
     public void resetWinnerText() {
         infoBoxContainer.getChildren().clear();
         infoBoxContainer.getChildren().add(infoBox);
     }
 
-    public void addNewGameButton() {
+    private void addNewGameButton() {
         Button newGame = new Button("New Game");
         newGame.setOnMouseClicked(event -> controller.handleNewGame());
         infoBoxContainer.getChildren().add(newGame);
     }
 
-    public void playAnimation(int column, Circle stone){
-
-        //Animation Setup
+    private void playAnimation(int column, Circle stone){
         double dropDuration = 500;
         //Audio Setup
         if (!this.muteAudio) {
@@ -225,11 +245,11 @@ public class PlayScreen extends GridPane {
     }
 
 
-    public boolean getMuteAudio() {
+    private boolean getMuteAudio() {
         return muteAudio;
     }
 
-    public void setMuteAudio() {
+    private void setMuteAudio() {
         this.muteAudio=!this.muteAudio;
     }
 }

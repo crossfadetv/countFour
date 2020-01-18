@@ -25,6 +25,10 @@ public class EntryScreen extends VBox {
     private TextField redPlayer;
     private TextField yellowPlayer;
 
+    /**
+     * @param controller defines controller
+     * @param primaryStage defines primaryStage
+     * */
     public EntryScreen(Controller controller, Stage primaryStage) {
         super();
         this.controller = controller;
@@ -34,6 +38,9 @@ public class EntryScreen extends VBox {
         primaryStage.setMaxWidth(715);
     }
 
+    /**
+     * displays the entry screen
+     * */
     public void showScreen() {
         primaryStage.setScene(entryScene);
         entryScene.getStylesheets().add(getClass().getResource("EntryScreen.css").toExternalForm());
@@ -42,7 +49,7 @@ public class EntryScreen extends VBox {
     }
 
     //get the Banner Img File
-    public FileInputStream getImage() {
+    private FileInputStream getImage() {
 
         FileInputStream fis = null;
         try {

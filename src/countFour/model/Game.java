@@ -25,6 +25,7 @@ public class Game extends Observable {
 
 
     /**
+     * plays a stone to a free row if possible
      * @param column the column in which the stone should be played
      * @return if the column is not full the played stone is returned
      *         else null is returned.
@@ -63,7 +64,6 @@ public class Game extends Observable {
     /**
      * changes the player on turn
      * */
-
     public void changePlayerTurn() {
         for (Player player : players) {
             player.changeTurn();
@@ -71,6 +71,7 @@ public class Game extends Observable {
     }
 
     /**
+     * checks for winning combinations of four vertically, horizontally and diagonally
      * @param player the player that played the stone
      * @param column the column to which the stone was thrown
      * @param row the row in which the stone was thrown
@@ -155,6 +156,7 @@ public class Game extends Observable {
     }
 
     /**
+     * starts the game and instantiates players
      * @param redPlayerName name of red player
      * @param yellowPlayerName name of yellow player
      * */
