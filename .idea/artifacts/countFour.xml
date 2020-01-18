@@ -1,0 +1,13 @@
+<component name="ArtifactManager">
+  <artifact type="javafx" name="countFour">
+    <output-path>$PROJECT_DIR$/out/artifacts/countFour</output-path>
+    <root id="root">
+      <element id="archive" name="countFour.jar">
+        <element id="module-output" name="countFour" />
+        <element id="directory" name="META-INF">
+          <element id="file-copy" path="$PROJECT_DIR$/src/countFour/META-INF/MANIFEST.MF" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>

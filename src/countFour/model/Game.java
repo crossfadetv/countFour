@@ -51,14 +51,11 @@ public class Game extends Observable {
                         Media drop = new Media(new File("src/countFour/view/audio/drop.mp3").toURI().toString());
                         MediaPlayer playDrop = new MediaPlayer(drop);
                         playDrop.setAutoPlay(true);
-                        System.out.println("Start");
                         playDrop.play();
                     };
                     int delay = (int) dropDuration-50;
                     scheduler.schedule(task, delay, TimeUnit.MILLISECONDS);
-
                     //scheduler.shutdown();
-                    System.out.println("Drop!!!");
                 }
 
 
@@ -112,6 +109,7 @@ public class Game extends Observable {
         for (int x = row; x <= row + 3; x++) {
             if (x < ROWS && stoneContainerGrid[column][x] != null && stoneContainerGrid[column][x].getColor() == currentColor) {
                 counter++;
+                System.out.println("vertical counter: "+ counter);
                 if (counter > 3) {
                     System.out.println(player.getName() + " has won");
                     setHasGameEnded(true);
@@ -119,12 +117,16 @@ public class Game extends Observable {
                 }
             } else {
                 counter = 0;
+                System.out.println("vertical counter back to 0");
             }
         }
+        counter =0;
+        System.out.println("counter is "+ counter);
         //check horizontal wins
         for (int x = 0; x < COLUMNS; x++) {
             if (stoneContainerGrid[x][row] != null && stoneContainerGrid[x][row].getColor() == currentColor) {
                 counter++;
+                System.out.println("horizontal counter: "+ counter);
                 if (counter > 3) {
                     System.out.println(player.getName() + " has won");
                     setHasGameEnded(true);
@@ -132,17 +134,18 @@ public class Game extends Observable {
                 }
             } else {
                 counter = 0;
+                System.out.println("horizontal counter back to 0");
             }
         }
 
         //check diagonal wins
         //descending
-
         for (int x = 0; x < COLUMNS - 3; x++) {
             for (int y = 0; y < ROWS - 3; y++) {
                 for (int offset = 1; offset <= 3; ) {
                     if (stoneContainerGrid[x][y] != null && stoneContainerGrid[x + offset][y + offset] != null && stoneContainerGrid[x][y].getColor() == stoneContainerGrid[x + offset][y + offset].getColor()) {
                         offset++;
+                        System.out.println("descending offset: "+ offset);
                         if (offset > 3) {
                             System.out.println(player.getName() + " has won");
                             setHasGameEnded(true);
@@ -160,6 +163,7 @@ public class Game extends Observable {
                 for (int offset = 1; offset <= 3; ) {
                     if (stoneContainerGrid[x][y] != null && stoneContainerGrid[x + offset][y - offset] != null && stoneContainerGrid[x][y].getColor() == stoneContainerGrid[x + offset][y - offset].getColor()) {
                         offset++;
+                        System.out.println("ascending offset: "+ offset);
                         if (offset > 3) {
                             System.out.println(player.getName() + " has won");
                             setHasGameEnded(true);
