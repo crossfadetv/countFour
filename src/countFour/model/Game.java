@@ -16,12 +16,19 @@ public class Game extends Observable {
     private boolean isDraw = false;
     private boolean muteAudio = false;
 
+    /**
+    * @return ArrayList containing the players
+    * */
     public ArrayList getPlayers() {
         return players;
     }
 
 
-
+    /**
+     * @param column the column in which the stone should be played
+     * @return if the column is not full the played stone is returned
+     *         else null is returned.
+     */
     public Stone playMove(int column) {
         for (int row = ROWS - 1; row >= 0; row--) {
             if (stoneContainerGrid[column][row] == null /*&& row <= 5*/) {
@@ -40,6 +47,9 @@ public class Game extends Observable {
         return null;
     }
 
+    /**
+     * @return the player that is on turn
+     * */
     public Player getPlayerOnTurn() {
         Player playerOnTurn = null;
         for (Player player : players) {
@@ -50,6 +60,9 @@ public class Game extends Observable {
         return playerOnTurn;
     }
 
+    /**
+     * changes the player on turn
+     * */
 
     public void changePlayerTurn() {
         for (Player player : players) {
@@ -57,7 +70,11 @@ public class Game extends Observable {
         }
     }
 
-
+    /**
+     * @param player the player that played the stone
+     * @param column the column to which the stone was thrown
+     * @param row the row in which the stone was thrown
+     */
     public void checkForWinner(Player player, int column, int row) {
         int counter = 0;
         Color currentColor = player.getColor();
@@ -137,6 +154,10 @@ public class Game extends Observable {
         }
     }
 
+    /**
+     * @param redPlayerName name of red player
+     * @param yellowPlayerName name of yellow player
+     * */
     public void startGame(String redPlayerName, String yellowPlayerName) {
         Player redPlayer = new Player(redPlayerName, Color.RED, true);
         Player yellowPlayer = new Player(yellowPlayerName, Color.YELLOW, false);
@@ -145,23 +166,32 @@ public class Game extends Observable {
         players.add(yellowPlayer);
     }
 
-    public void setHasGameEnded(boolean hasGameEnded) {
+
+    private void setHasGameEnded(boolean hasGameEnded) {
         this.hasGameEnded = hasGameEnded;
     }
 
+    /**
+     * @return whether the game has ended or not
+     *  */
     public boolean getHasGameEnded() {
         return hasGameEnded;
     }
 
-    public void setIsDraw(boolean isDraw){
+    private void setIsDraw(boolean isDraw){
         this.isDraw = isDraw;
     }
 
+    /**
+     * @return whether the game ended in a draw or not
+     * */
     public boolean getIsDraw(){
         return isDraw;
     }
 
-
+    /**
+     * @return the last played row
+     * */
     public int getLastPlayedRow() {
         return lastPlayedRow;
     }

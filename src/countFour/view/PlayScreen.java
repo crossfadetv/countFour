@@ -79,9 +79,7 @@ public class PlayScreen extends GridPane {
                 field.setTranslateY((y * 100));
                 this.getChildren().add(field);
             }
-
             this.getChildren().add(getInfoBox());
-
         }
         return this;
     }
@@ -109,7 +107,6 @@ public class PlayScreen extends GridPane {
 
 
     private VBox getInfoBox() {
-
         infoBox = new Label();
         infoBoxContainer = new VBox(infoBox);
         infoBoxContainer.setAlignment(Pos.CENTER);
