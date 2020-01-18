@@ -43,7 +43,7 @@ public class EntryScreen extends VBox {
 
         FileInputStream fis = null;
         try {
-            fis = new FileInputStream("src/countFour/view/bannerEntryScreen.jpg");
+            fis = new FileInputStream("src/countFour/view/img/bannerEntryScreen.jpg");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
