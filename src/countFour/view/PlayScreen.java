@@ -3,6 +3,7 @@ package countFour.view;
 import countFour.Controller;
 import countFour.model.Game;
 
+import countFour.model.SavedGame;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -43,7 +44,6 @@ public class PlayScreen extends GridPane {
     private VBox infoBoxContainer;
     private Controller controller;
     private ArrayList<Polygon> positionArrows;
-
     private boolean muteAudio = false;
 
     /**
@@ -156,6 +156,15 @@ public class PlayScreen extends GridPane {
         }
     }
 
+    public void restoreSavedGame (SavedGame savedGame) {
+        savedGame.loadGame();
+        for (int i=0; i<savedGame.getTurns().size(); i++) {
+            makeMove(savedGame.getTurns().get(i));
+        }
+
+
+    }
+
     /**
      * clears all stones from the board
      * */
@@ -245,11 +254,11 @@ public class PlayScreen extends GridPane {
     }
 
 
-    private boolean getMuteAudio() {
+    public boolean getMuteAudio() {
         return muteAudio;
     }
 
-    private void setMuteAudio() {
+    public void toggleAudio() {
         this.muteAudio=!this.muteAudio;
     }
 }

@@ -92,6 +92,7 @@ public class EntryScreen extends VBox {
         yellowPlayer = new TextField();
         yellowPlayer.setId("yellowfield");
         Button continueGameButton = new Button("letztes Spiel fortsetzen");
+        continueGameButton.setOnMouseClicked(event -> continueGame());
         continueGameButton.setId("continue-btn");
         grid.add(instruction,0,0);
         grid.add(redPlayer,0,1);
@@ -136,5 +137,8 @@ public class EntryScreen extends VBox {
             controller.handleStartGame(redPlayer, yellowPlayer);
         }
 
+    }
+    private void continueGame() {
+        controller.handleContinueGame();
     }
 }

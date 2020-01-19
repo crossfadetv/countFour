@@ -1,6 +1,7 @@
 package countFour;
 
 import countFour.model.Game;
+import countFour.model.SavedGame;
 import countFour.model.Stone;
 import countFour.view.EntryScreen;
 import countFour.view.PlayScreen;
@@ -57,6 +58,26 @@ public class Controller {
     public void handleStartGame(String redPlayerName, String yellowPlayerName) {
         game.startGame(redPlayerName, yellowPlayerName);
         playScreen.showScreen();
+    }
+
+    /**
+     * restore the last game state
+     */
+    public void handleContinueGame() {
+        SavedGame savedGame = new SavedGame();
+        savedGame.loadGame();
+        int restoreTurnAmount = savedGame.getTurns().size();
+        game.startGame(savedGame.getRedPlayerName(),savedGame.getYellowPlayerName());
+        playScreen.toggleAudio();
+        playScreen.showScreen();
+        playScreen.restoreSavedGame(savedGame);
+        for (int i=game.getSavedGame().getTurns().size();i>restoreTurnAmount;i--) {
+            game.getSavedGame().getTurns().remove(i);
+        }
+        playScreen.toggleAudio();
+
+
+
     }
 
     /**

@@ -14,7 +14,8 @@ public class Game extends Observable {
     private int lastPlayedRow;
     private boolean hasGameEnded = false;
     private boolean isDraw = false;
-    private boolean muteAudio = false;
+    //private boolean muteAudio = false;
+    private SavedGame savedGame = new SavedGame();
 
     /**
     * @return ArrayList containing the players
@@ -41,6 +42,8 @@ public class Game extends Observable {
                 if (!getHasGameEnded()) {
                     changePlayerTurn();
                 }
+                savedGame.addTurn(column);
+                savedGame.saveGame();
                 return stone;
             } else {
             }
@@ -166,6 +169,8 @@ public class Game extends Observable {
         players = new ArrayList<>();
         players.add(redPlayer);
         players.add(yellowPlayer);
+        savedGame.setRedPlayerName(redPlayerName);
+        savedGame.setYellowPlayerName(yellowPlayerName);
     }
 
 
@@ -196,5 +201,13 @@ public class Game extends Observable {
      * */
     public int getLastPlayedRow() {
         return lastPlayedRow;
+    }
+
+    /**
+     *
+     * @return the SaveGame object
+     */
+    public SavedGame getSavedGame() {
+        return savedGame;
     }
 }
