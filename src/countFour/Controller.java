@@ -11,61 +11,97 @@ public class Controller {
     private PlayScreen playScreen;
     private Game game;
 
+    /**
+     * @param game defines game
+     */
     public Controller(Game game) {
         this.game = game;
     }
 
+    /**
+     * let's entryscreen display the screen
+     */
     public void buildView() {
         entryScreen.showScreen();
     }
 
+    /**
+     * @return the current game
+     */
     public Game getGame() {
         return game;
     }
 
+    /**
+     * @param column the column in which the stone should be played
+     * @return if the column is not full the played stone is returned
+     * else null is returned.
+     */
     public Stone handlePlayMove(int column) {
         return game.playMove(column);
     }
 
+    /**
+     * @return whether or not game has ended
+     */
     public boolean hasGameEnded() {
         return game.getHasGameEnded();
     }
 
+    /**
+     * handles start of the game and let's playscreen be displayed
+     *
+     * @param redPlayerName    name of red player
+     * @param yellowPlayerName name of yellow player
+     */
     public void handleStartGame(String redPlayerName, String yellowPlayerName) {
         game.startGame(redPlayerName, yellowPlayerName);
         playScreen.showScreen();
     }
 
+    /**
+     * handles the end of the game in case of draw or win.
+     */
     public void handleEndGame() {
-        if(game.getIsDraw()){
+        if (game.getIsDraw()) {
             playScreen.addDrawInfo();
+        } else {
+            playScreen.addWinnerInfo();
         }
-        else{
-        playScreen.addWinnerInfo();}
     }
 
+    /**
+     * @return name of the winner
+     */
     public String getWinner() {
         return game.getPlayerOnTurn().getName();
     }
 
+    /**
+     * defines entry screen
+     */
     public void setEntryScreen(EntryScreen entryscreen) {
         this.entryScreen = entryscreen;
     }
 
+    /**
+     * defines play screen
+     */
     public void setPlayScreen(PlayScreen playScreen) {
         this.playScreen = playScreen;
     }
 
-    /*public void setWinScreen(WinScreen winScreen) {
-        this.winScreen = winScreen;
-    }*/
-
-
+    /**
+     * @return the name of the player on turn
+     */
     public String showPlayer() {
         return game.getPlayerOnTurn().getName();
     }
 
-    public void handleNewGame(){
+    /**
+     * handles a new game (resets play screen and creates new game)
+     */
+    public void handleNewGame() {
         playScreen.resetStonePane();
         playScreen.resetWinnerText();
         playScreen.enablePositionArrows();
@@ -73,5 +109,11 @@ public class Controller {
         buildView();
     }
 
+    /**
+     * @return the row in which the latest stone was played
+     */
+    public int getLastPlayedRow() {
+        return game.getLastPlayedRow();
+    }
 
 }

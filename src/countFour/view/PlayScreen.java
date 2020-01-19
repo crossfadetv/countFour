@@ -3,15 +3,16 @@ package countFour.view;
 import countFour.Controller;
 import countFour.model.Game;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
@@ -22,6 +23,7 @@ import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -30,7 +32,6 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class PlayScreen extends GridPane {
-    //TODO: discuss where to define.
     private static final int COLUMNS = Game.COLUMNS;
     private static final int ROWS = Game.ROWS;
     private static final int FIELDSIZE = Game.FIELDSIZE;
@@ -43,6 +44,12 @@ public class PlayScreen extends GridPane {
     private Controller controller;
     private ArrayList<Polygon> positionArrows;
 
+    private boolean muteAudio = false;
+
+    /**
+     * @param controller defines controller
+     * @param primaryStage defines primaryStage
+     * */
     public PlayScreen(Controller controller, Stage primaryStage) {
         super();
         this.controller = controller;
@@ -53,32 +60,30 @@ public class PlayScreen extends GridPane {
     }
 
 
-    public Parent buildPlayScreen() {
+    private Parent buildPlayScreen() {
         this.getChildren().add(stonePane);
         stonePane.setId("stone-pane");
         this.setPrefSize(700, 800);
 
-        for (int x = 1; x <= COLUMNS; x++) {
+        for (int x = 0; x <= COLUMNS-1; x++) {
             Polygon positionArrow = createArrow();
-            positionArrow.setTranslateX((x * FIELDSIZE) - 80);
+            positionArrow.setTranslateX(((x+1) * FIELDSIZE) - 80);
             positionArrow.setOnMouseEntered(event -> positionArrow.setCursor(Cursor.HAND));
             positionArrows.add(positionArrow);
             final int column = x;
             positionArrow.setOnMouseClicked(event -> makeMove(column));
             this.getChildren().add(positionArrow);
             for (int y = 1; y <= ROWS; y++) {
-                Rectangle rectangle = new Rectangle((x - 1) * FIELDSIZE, y * FIELDSIZE, 100, 100);
+                Rectangle rectangle = new Rectangle(x  * FIELDSIZE, y * FIELDSIZE, 100, 100);
                 rectangle.setFill(Color.NAVY);
-                Circle circle = new Circle((x - 1) * FIELDSIZE + FIELDSIZE / 2, y * FIELDSIZE + FIELDSIZE / 2, FIELDSIZE / 2 - 10);
+                Circle circle = new Circle(x  * FIELDSIZE + FIELDSIZE / 2, y * FIELDSIZE + FIELDSIZE / 2, FIELDSIZE / 2 - 10);
                 Shape field = Shape.subtract(rectangle, circle);
                 field.setFill(Color.NAVY);
-                field.setTranslateX(((x - 1) * 100));
+                field.setTranslateX((x * 100));
                 field.setTranslateY((y * 100));
                 this.getChildren().add(field);
             }
-
             this.getChildren().add(getInfoBox());
-
         }
         return this;
     }
@@ -97,6 +102,9 @@ public class PlayScreen extends GridPane {
         }
     }
 
+    /**
+     * makes arrows clickable
+     * */
     public void enablePositionArrows() {
         for (Polygon positionArrow : positionArrows) {
             positionArrow.setDisable(false);
@@ -106,7 +114,6 @@ public class PlayScreen extends GridPane {
 
 
     private VBox getInfoBox() {
-
         infoBox = new Label();
         infoBoxContainer = new VBox(infoBox);
         infoBoxContainer.setAlignment(Pos.CENTER);
@@ -115,21 +122,24 @@ public class PlayScreen extends GridPane {
         return infoBoxContainer;
     }
 
-
+    /**
+     * displays the play screen
+     * */
     public void showScreen() {
         playScene.getStylesheets().add(getClass().getResource("PlayScreen.css").toExternalForm());
         infoBox.setId("red-notification");
         infoBox.setText(controller.showPlayer().toUpperCase() + ", du bist am Zug!");
         primaryStage.setScene(playScene);
         primaryStage.show();
-
-
-
     }
 
+    //make move if game has not ended and column can still be played
     private void makeMove(int column) {
         try {
-            stonePane.getChildren().add(controller.handlePlayMove(column));
+            Circle stone = controller.handlePlayMove(column);
+            stonePane.getChildren().add(stone);
+            playAnimation(column, stone);
+
             if (!controller.hasGameEnded()) {
                 if (controller.getGame().getPlayerOnTurn().getColor().equals(Color.RED)) {
                     infoBox.setId("red-notification");
@@ -146,49 +156,100 @@ public class PlayScreen extends GridPane {
         }
     }
 
+    /**
+     * clears all stones from the board
+     * */
     public void resetStonePane() {
         stonePane.getChildren().clear();
     }
 
+    /***
+     * displays winner info and sound
+     */
     public void addWinnerInfo() {
         //Audio Setup
-        if (!controller.getGame().getMuteAudio()) {
+        if (!muteAudio) {
             double audioDelay = 700;
             ScheduledExecutorService scheduler
                     = Executors.newSingleThreadScheduledExecutor();
 
-            Runnable task = new Runnable() {
-                public void run() {
-                    Media winnerSound = new Media(new File("src/countFour/view/audio/win.mp3").toURI().toString());
-                    MediaPlayer playWinnerSound = new MediaPlayer(winnerSound);
-                    playWinnerSound.setAutoPlay(true);
-                    playWinnerSound.play();
-                }
+            Runnable task = () -> {
+                Media winnerSound = new Media(new File("src/countFour/view/audio/win.mp3").toURI().toString());
+                MediaPlayer playWinnerSound = new MediaPlayer(winnerSound);
+                playWinnerSound.setAutoPlay(true);
+                playWinnerSound.play();
             };
             int delay = (int) audioDelay;
             scheduler.schedule(task, delay, TimeUnit.MILLISECONDS);
-            //scheduler.shutdown();
+
         }
         infoBox.setText(controller.getWinner() + " ,du hast gewonnen!");
         addNewGameButton();
 
     }
 
+    /**
+     * displays draw info
+     * */
     public void addDrawInfo() {
         infoBox.setText("it's a draw");
         addNewGameButton();
     }
 
+    /**
+     * clears winner info
+     * */
     public void resetWinnerText() {
         infoBoxContainer.getChildren().clear();
         infoBoxContainer.getChildren().add(infoBox);
     }
 
-    public void addNewGameButton() {
+    private void addNewGameButton() {
         Button newGame = new Button("New Game");
         newGame.setOnMouseClicked(event -> controller.handleNewGame());
         infoBoxContainer.getChildren().add(newGame);
     }
 
+    private void playAnimation(int column, Circle stone){
+        double dropDuration = 500;
+        //Audio Setup
+        if (!this.muteAudio) {
 
+            ScheduledExecutorService scheduler
+                    = Executors.newSingleThreadScheduledExecutor();
+
+            Runnable task = () -> {
+                Media drop = new Media(new File("src/countFour/view/audio/drop.mp3").toURI().toString());
+                MediaPlayer playDrop = new MediaPlayer(drop);
+                playDrop.setAutoPlay(true);
+                playDrop.play();
+            };
+            int delay = (int) dropDuration-50;
+            scheduler.schedule(task, delay, TimeUnit.MILLISECONDS);
+            //scheduler.shutdown();
+        }
+
+
+        //Set Start Position
+        stone.setTranslateX(column * FIELDSIZE + 50);
+        stone.setTranslateY(50);
+        //Set End Position
+        KeyFrame startPos = new KeyFrame(Duration.millis(dropDuration),
+                new KeyValue(stone.translateXProperty(),column*FIELDSIZE+50),
+                new KeyValue(stone.translateYProperty(),controller.getLastPlayedRow() * FIELDSIZE + 150));
+        //Invoke Animation
+        Timeline tl = new Timeline();
+        tl.getKeyFrames().addAll(startPos);
+        tl.setCycleCount(1);
+        tl.play();
+    }
+
+
+    private boolean getMuteAudio() {
+        return muteAudio;
+    }
+
+    private void setMuteAudio() {
+        this.muteAudio=!this.muteAudio;
+    }
 }

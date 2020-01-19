@@ -23,7 +23,8 @@ public class StoneTest {
     public void testGetColor() {
         Color color = stone.getColor();
         assertThat(color,is(Color.RED));
-
     }
+
+
 
 }
