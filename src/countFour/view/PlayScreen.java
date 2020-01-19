@@ -124,11 +124,15 @@ public class PlayScreen extends GridPane {
 
     public void showScreen() {
         playScene.getStylesheets().add(getClass().getResource("PlayScreen.css").toExternalForm());
-        infoBox.setId("red-notification");
+        //infoBox.setId("red-notification");
+        if (controller.getGame().getPlayerOnTurn().getColor().equals(Color.RED)) {
+            infoBox.setId("red-notification");
+        } else {
+            infoBox.setId("yellow-notification");
+        };
         infoBox.setText(controller.showPlayer().toUpperCase() + ", du bist am Zug!");
         primaryStage.setScene(playScene);
         primaryStage.show();
-
 
 
     }

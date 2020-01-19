@@ -77,10 +77,14 @@ public class Game extends Observable {
                 if (!getHasGameEnded()) {
                     changePlayerTurn();
                 }
+                SavedGame save = new SavedGame(this.getPlayerOnTurn());
+                save.loadGame(save.getFileName());
+
                 return stone;
             } else {
             }
         }
+
         return null;
     }
 
@@ -217,5 +221,7 @@ public class Game extends Observable {
     public boolean getMuteAudio() {
         return muteAudio;
     }
+
+
 
    }

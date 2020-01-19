@@ -36,6 +36,10 @@ public class Controller {
         playScreen.showScreen();
     }
 
+    public void handleContinueGame() {
+
+    }
+
     public void handleEndGame() {
         if(game.getIsDraw()){
             playScreen.addDrawInfo();
