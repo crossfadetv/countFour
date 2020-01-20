@@ -76,8 +76,6 @@ public class Controller {
         }
         playScreen.toggleAudio();
 
-
-
     }
 
     /**
