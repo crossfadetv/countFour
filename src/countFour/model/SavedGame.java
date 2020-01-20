@@ -14,9 +14,9 @@ public class SavedGame implements Serializable {
 
 
     //Writes a file containing this object state and store it in the defined path
-    public void saveGame() {
+    public void saveGame(String path) {
         try {
-            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(PATH));
+            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(path));
             oos.writeObject(this);
             oos.close();
             System.out.println("Object was written");
@@ -26,9 +26,9 @@ public class SavedGame implements Serializable {
         }
     }
     //Reads a file containing object status in the defined path
-    public void loadGame() {
+    public void loadGame(String path) {
         try {
-            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(PATH));
+            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(path));
             SavedGame restored =(SavedGame) ois.readObject();
             ois.close();
             System.out.println("Object was loaded");
@@ -41,6 +41,9 @@ public class SavedGame implements Serializable {
         }
     }
 
+    public static String getPATH() {
+        return PATH;
+    }
 
     public void addTurn(int column) {
         this.turns.add(column);

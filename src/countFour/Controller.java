@@ -65,7 +65,7 @@ public class Controller {
      */
     public void handleContinueGame() {
         SavedGame savedGame = new SavedGame();
-        savedGame.loadGame();
+        savedGame.loadGame(SavedGame.getPATH());
         int restoreTurnAmount = savedGame.getTurns().size();
         game.startGame(savedGame.getRedPlayerName(),savedGame.getYellowPlayerName());
         playScreen.toggleAudio();

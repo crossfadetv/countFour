@@ -43,7 +43,7 @@ public class Game extends Observable {
                     changePlayerTurn();
                 }
                 savedGame.addTurn(column);
-                savedGame.saveGame();
+                savedGame.saveGame(SavedGame.getPATH());
                 return stone;
             } else {
             }

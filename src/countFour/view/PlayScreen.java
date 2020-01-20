@@ -157,7 +157,7 @@ public class PlayScreen extends GridPane {
     }
 
     public void restoreSavedGame (SavedGame savedGame) {
-        savedGame.loadGame();
+        savedGame.loadGame(SavedGame.getPATH());
         for (int i=0; i<savedGame.getTurns().size(); i++) {
             makeMove(savedGame.getTurns().get(i));
         }
