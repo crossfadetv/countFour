@@ -1,3 +1,11 @@
+/**
+ * Implements tests for Stone class
+ *
+ *
+ * @author  Markus Steiner
+ * @version 1.0
+ * @since   2019-12-01
+ */
 package test;
 
 import countFour.model.Game;

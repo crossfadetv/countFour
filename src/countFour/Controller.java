@@ -1,3 +1,11 @@
+/**
+ * The game's controller class handles user inputs.
+ *
+ *
+ * @author  Rahel Krubally, Markus Steiner
+ * @version 1.0
+ * @since   2020-01-01
+ */
 package countFour;
 
 import countFour.model.Game;
@@ -75,7 +83,6 @@ public class Controller {
             game.getSavedGame().getTurns().remove(i);
         }
         playScreen.toggleAudio();
-
     }
 
     /**

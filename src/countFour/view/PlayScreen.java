@@ -1,3 +1,11 @@
+/**
+ * This class implements the user interface (javaFX) and its layout for the games's play screen.
+ *
+ *
+ * @author  Rahel Krubally, Markus Steiner
+ * @version 1.0
+ * @since   2019-12-01
+ */
 package countFour.view;
 
 import countFour.Controller;

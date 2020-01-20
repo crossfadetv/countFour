@@ -1,3 +1,12 @@
+/**
+ * This class implements the game functionality like setting up or restoring a game,
+ * and validates the grid.
+ *
+ *
+ * @author  Rahel Krubally
+ * @version 1.0
+ * @since   2019-12-1
+ */
 package countFour.model;
 
 import javafx.scene.paint.Color;

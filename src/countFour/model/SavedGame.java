@@ -1,7 +1,16 @@
+/**
+ * This class handles the serialization functionality for saving and restoring games.
+ * The object is written to a *.ser-file
+ *
+ *
+ * @author  Markus Steiner
+ * @version 1.0
+ * @since   2020-1-19
+ */
 package countFour.model;
-
 import java.io.*;
 import java.util.ArrayList;
+
 
 public class SavedGame implements Serializable {
     private static final String PATH = "savedGame.ser";

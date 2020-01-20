@@ -1,3 +1,12 @@
+/**
+ * This class extends the circle object and represents a play stone. It has a color
+ * as property.
+ *
+ *
+ * @author  Rahel Krubally
+ * @version 1.0
+ * @since   2020-1-19
+ */
 package countFour.model;
 
 import javafx.scene.paint.Color;
