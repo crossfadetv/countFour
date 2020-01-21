@@ -27,7 +27,6 @@ public class SavedGame implements Serializable {
             ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(path));
             oos.writeObject(this);
             oos.close();
-            System.out.println("Object was written");
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Failed to save");
@@ -43,7 +42,6 @@ public class SavedGame implements Serializable {
             ObjectInputStream ois = new ObjectInputStream(new FileInputStream(path));
             SavedGame restored =(SavedGame) ois.readObject();
             ois.close();
-            System.out.println("Object was loaded");
             this.turns = restored.getTurns();
             this.redPlayerName = restored.getRedPlayerName();
             this.yellowPlayerName = restored.getYellowPlayerName();

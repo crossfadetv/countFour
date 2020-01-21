@@ -65,6 +65,7 @@ public class Controller {
      */
     public void handleStartGame(String redPlayerName, String yellowPlayerName) {
         game.startGame(redPlayerName, yellowPlayerName);
+        game.getSavedGame().saveGame(SavedGame.getPATH());
         playScreen.showScreen();
     }
 

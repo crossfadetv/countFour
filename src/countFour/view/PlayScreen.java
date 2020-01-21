@@ -241,7 +241,7 @@ public class PlayScreen extends GridPane {
                 playDrop.setAutoPlay(true);
                 playDrop.play();
             };
-            int delay = (int) dropDuration-50;
+            int delay = (int) dropDuration;
             scheduler.schedule(task, delay, TimeUnit.MILLISECONDS);
             //scheduler.shutdown();
         }
