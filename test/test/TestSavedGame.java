@@ -9,6 +9,8 @@
 package test;
 
 import countFour.model.Game;
+import countFour.model.SavedGame;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import static org.hamcrest.CoreMatchers.*;
@@ -23,11 +25,13 @@ public class TestSavedGame {
     private static final String PATH = "testSavedGame.ser";
     private ArrayList<Integer> turns = new ArrayList<>();
     private Game game = new Game();
+    private SavedGame oldSavedGame = new SavedGame();
 
     @Before
     public void setUp() {
         redPlayer = "Frau Rot";
         yellowPlayer = "Herr Gelb";
+        oldSavedGame.loadGame(SavedGame.getPATH());
     }
     @Test
     public void testSerializing() {
@@ -45,10 +49,13 @@ public class TestSavedGame {
         turns.add(1);
         turns.add(6);
         assertEquals(game.getSavedGame().getTurns(),turns);
-
     }
-
-
-
-
+    /**
+     * Restore the original SavedGame object which was overwritten in the testSerializing() method
+     * by the playMove() method.
+     */
+    @After
+    public void restoreOriginalSavedGame() {
+        oldSavedGame.saveGame(SavedGame.getPATH());
+    }
 }
