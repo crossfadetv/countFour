@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement />
+  <nodes>
+    <node x="118.21284516765283" y="120.0">countFour.model.SavedGame</node>
+    <node x="375.84770710059166" y="658.0">countFour.view.EntryScreen</node>
+    <node x="395.20871137409597" y="0.0">countFour.model.Stone</node>
+    <node x="331.41284516765285" y="120.0">countFour.model.Player</node>
+    <node x="289.4263560157791" y="316.0">countFour.model.Game</node>
+    <node x="361.8461785009862" y="1116.0">countFour.Main</node>
+    <node x="10.5" y="592.0">countFour.view.PlayScreen</node>
+    <node x="240.49617850098616" y="962.0">countFour.Controller</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="countFour.view.PlayScreen" target="countFour.Controller">
+      <point x="94.39999999999998" y="135.0" />
+      <point x="222.89999999999998" y="892.0" />
+      <point x="300.7269477317554" y="892.0" />
+      <point x="-26.769230769230774" y="-47.0" />
+    </edge>
+    <edge source="countFour.model.Player" target="countFour.model.Stone">
+      <point x="-22.0" y="-58.0" />
+      <point x="397.41284516765285" y="100.0" />
+      <point x="428.33371137409597" y="100.0" />
+      <point x="-19.875" y="25.0" />
+    </edge>
+    <edge source="countFour.model.Game" target="countFour.model.Stone">
+      <point x="44.22222222222223" y="-113.0" />
+      <point x="433.14857823800133" y="276.0" />
+      <point x="517.9128451676529" y="276.0" />
+      <point x="517.9128451676529" y="90.0" />
+      <point x="468.08371137409597" y="90.0" />
+      <point x="19.875000000000014" y="25.0" />
+    </edge>
+    <edge source="countFour.view.PlayScreen" target="countFour.model.Game">
+      <point x="59.0" y="-135.0" />
+      <point x="187.5" y="572.0" />
+      <point x="306.0096893491125" y="572.0" />
+      <point x="-82.91666666666666" y="113.0" />
+    </edge>
+    <edge source="countFour.Controller" target="countFour.view.EntryScreen">
+      <point x="40.15384615384613" y="-47.0" />
+      <point x="367.6500246548323" y="912.0" />
+      <point x="392.1477071005917" y="912.0" />
+      <point x="-65.19999999999999" y="69.0" />
+    </edge>
+    <edge source="countFour.Main" target="countFour.view.EntryScreen">
+      <point x="12.833333333333314" y="-25.0" />
+      <point x="451.6795118343195" y="1076.0" />
+      <point x="506.6961785009862" y="1076.0" />
+      <point x="506.6961785009862" y="942.0" />
+      <point x="522.5477071005917" y="942.0" />
+      <point x="65.20000000000005" y="69.0" />
+    </edge>
+    <edge source="countFour.model.Game" target="countFour.model.SavedGame">
+      <point x="-66.33333333333334" y="-113.0" />
+      <point x="322.5930226824458" y="276.0" />
+      <point x="243.51284516765284" y="276.0" />
+      <point x="35.80000000000001" y="58.0" />
+    </edge>
+    <edge source="countFour.view.PlayScreen" target="countFour.model.SavedGame">
+      <point x="-59.0" y="-135.0" />
+      <point x="69.5" y="296.0" />
+      <point x="136.11284516765284" y="296.0" />
+      <point x="-71.6" y="58.0" />
+    </edge>
+    <edge source="countFour.Controller" target="countFour.model.SavedGame">
+      <point x="-13.384615384615415" y="-47.0" />
+      <point x="314.11156311637075" y="882.0" />
+      <point x="257.0" y="882.0" />
+      <point x="257.0" y="296.0" />
+      <point x="171.91284516765282" y="296.0" />
+      <point x="-35.80000000000001" y="58.0" />
+    </edge>
+    <edge source="countFour.model.Game" target="countFour.model.Player">
+      <point x="0.0" y="-113.0" />
+      <point x="388.9263560157791" y="256.0" />
+      <point x="419.41284516765285" y="256.0" />
+      <point x="0.0" y="58.0" />
+    </edge>
+    <edge source="countFour.Controller" target="countFour.model.Stone">
+      <point x="-80.30769230769232" y="-47.0" />
+      <point x="247.18848619329384" y="932.0" />
+      <point x="0.0" y="932.0" />
+      <point x="0.0" y="80.0" />
+      <point x="401.83371137409597" y="80.0" />
+      <point x="-46.375" y="25.0" />
+    </edge>
+    <edge source="countFour.Controller" target="countFour.model.Game">
+      <point x="0.0" y="-47.0" />
+      <point x="327.49617850098616" y="572.0" />
+      <point x="339.1763560157791" y="572.0" />
+      <point x="-49.75" y="113.0" />
+    </edge>
+    <edge source="countFour.Main" target="countFour.Controller">
+      <point x="-12.833333333333314" y="-25.0" />
+      <point x="426.01284516765287" y="1076.0" />
+      <point x="370.99617850098616" y="1076.0" />
+      <point x="43.5" y="47.0" />
+    </edge>
+    <edge source="countFour.model.Stone" target="countFour.model.Player">
+      <point x="6.625000000000014" y="25.0" />
+      <point x="454.83371137409597" y="100.0" />
+      <point x="485.41284516765285" y="100.0" />
+      <point x="66.00000000000001" y="-58.0" />
+    </edge>
+    <edge source="countFour.view.EntryScreen" target="countFour.Controller">
+      <point x="32.60000000000002" y="69.0" />
+      <point x="489.9477071005917" y="942.0" />
+      <point x="407.8038708086785" y="942.0" />
+      <point x="80.30769230769232" y="-47.0" />
+    </edge>
+    <edge source="countFour.Main" target="countFour.view.PlayScreen">
+      <point x="-64.16666666666669" y="-25.0" />
+      <point x="374.6795118343195" y="1096.0" />
+      <point x="30.38020216962525" y="1096.0" />
+      <point x="30.38020216962525" y="942.0" />
+      <point x="34.10000000000002" y="942.0" />
+      <point x="-94.39999999999998" y="135.0" />
+    </edge>
+    <edge source="countFour.Main" target="countFour.model.Game">
+      <point x="64.16666666666667" y="-25.0" />
+      <point x="503.01284516765287" y="1096.0" />
+      <point x="560.3477071005916" y="1096.0" />
+      <point x="560.3477071005916" y="562.0" />
+      <point x="471.8430226824458" y="562.0" />
+      <point x="82.91666666666667" y="113.0" />
+    </edge>
+    <edge source="countFour.Controller" target="countFour.view.PlayScreen">
+      <point x="-53.53846153846155" y="-47.0" />
+      <point x="273.9577169625246" y="912.0" />
+      <point x="128.5" y="912.0" />
+      <point x="0.0" y="135.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="120.0" y="623.0" />
+  <SelectedNodes>
+    <node>countFour.model.Game</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Fields</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
