@@ -73,17 +73,8 @@ public class Controller {
      * restore the last game state
      */
     public void handleContinueGame() {
-        SavedGame savedGame = new SavedGame();
-        savedGame.loadGame(SavedGame.getPATH());
-        int restoreTurnAmount = savedGame.getTurns().size();
-        game.startGame(savedGame.getRedPlayerName(),savedGame.getYellowPlayerName());
-        playScreen.toggleAudio();
-        playScreen.showScreen();
-        playScreen.restoreSavedGame(savedGame);
-        for (int i=game.getSavedGame().getTurns().size();i>restoreTurnAmount;i--) {
-            game.getSavedGame().getTurns().remove(i);
-        }
-        playScreen.toggleAudio();
+        game.continueGame();
+        playScreen.restoreSavedGame(game.getSavedGame());
     }
 
     /**

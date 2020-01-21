@@ -181,6 +181,10 @@ public class Game extends Observable {
         savedGame.setRedPlayerName(redPlayerName);
         savedGame.setYellowPlayerName(yellowPlayerName);
     }
+    public void continueGame() {
+        savedGame.loadGame(SavedGame.getPATH());
+        this.startGame(savedGame.getRedPlayerName(),savedGame.getYellowPlayerName());
+    }
 
 
     private void setHasGameEnded(boolean hasGameEnded) {

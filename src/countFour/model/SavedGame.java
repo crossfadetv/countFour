@@ -83,6 +83,10 @@ public class SavedGame implements Serializable {
         this.yellowPlayerName = yellowPlayerName;
     }
 
+    public void setTurns(ArrayList<Integer> turns) {
+        this.turns = turns;
+    }
+
     /**
      *
      * @return a list of all turns

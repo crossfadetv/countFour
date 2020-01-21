@@ -165,10 +165,15 @@ public class PlayScreen extends GridPane {
     }
 
     public void restoreSavedGame (SavedGame savedGame) {
-        savedGame.loadGame(SavedGame.getPATH());
-        for (int i=0; i<savedGame.getTurns().size(); i++) {
+        this.toggleAudio();
+        this.showScreen();
+        ArrayList<Integer> turnsOld = savedGame.getTurns();
+        int turnAmountOld = turnsOld.size();
+        for (int i=0; i<turnAmountOld; i++) {
             makeMove(savedGame.getTurns().get(i));
+            savedGame.getTurns().remove((savedGame.getTurns().size())-1);
         }
+        this.toggleAudio();
 
 
     }
