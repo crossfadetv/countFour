@@ -1,8 +1,17 @@
+/**
+ * This class implements the user interface (javaFX) and its layout for the games's play screen.
+ *
+ *
+ * @author  Rahel Krubally, Markus Steiner
+ * @version 1.0
+ * @since   2019-12-01
+ */
 package countFour.view;
 
 import countFour.Controller;
 import countFour.model.Game;
 
+import countFour.model.SavedGame;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -43,7 +52,6 @@ public class PlayScreen extends GridPane {
     private VBox infoBoxContainer;
     private Controller controller;
     private ArrayList<Polygon> positionArrows;
-
     private boolean muteAudio = false;
 
     /**
@@ -156,6 +164,20 @@ public class PlayScreen extends GridPane {
         }
     }
 
+    public void restoreSavedGame (SavedGame savedGame) {
+        this.toggleAudio();
+        this.showScreen();
+        ArrayList<Integer> turnsOld = savedGame.getTurns();
+        int turnAmountOld = turnsOld.size();
+        for (int i=0; i<turnAmountOld; i++) {
+            makeMove(savedGame.getTurns().get(i));
+            savedGame.getTurns().remove((savedGame.getTurns().size())-1);
+        }
+        this.toggleAudio();
+
+
+    }
+
     /**
      * clears all stones from the board
      * */
@@ -224,7 +246,7 @@ public class PlayScreen extends GridPane {
                 playDrop.setAutoPlay(true);
                 playDrop.play();
             };
-            int delay = (int) dropDuration-50;
+            int delay = (int) dropDuration;
             scheduler.schedule(task, delay, TimeUnit.MILLISECONDS);
             //scheduler.shutdown();
         }
@@ -245,11 +267,11 @@ public class PlayScreen extends GridPane {
     }
 
 
-    private boolean getMuteAudio() {
+    public boolean getMuteAudio() {
         return muteAudio;
     }
 
-    private void setMuteAudio() {
+    public void toggleAudio() {
         this.muteAudio=!this.muteAudio;
     }
 }

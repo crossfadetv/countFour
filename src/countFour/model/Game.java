@@ -1,3 +1,12 @@
+/**
+ * This class implements the game functionality like setting up or restoring a game,
+ * and validates the grid.
+ *
+ *
+ * @author  Rahel Krubally
+ * @version 1.0
+ * @since   2019-12-1
+ */
 package countFour.model;
 
 import javafx.scene.paint.Color;
@@ -14,7 +23,8 @@ public class Game extends Observable {
     private int lastPlayedRow;
     private boolean hasGameEnded = false;
     private boolean isDraw = false;
-    private boolean muteAudio = false;
+    //private boolean muteAudio = false;
+    private SavedGame savedGame = new SavedGame();
 
     /**
     * @return ArrayList containing the players
@@ -41,6 +51,8 @@ public class Game extends Observable {
                 if (!getHasGameEnded()) {
                     changePlayerTurn();
                 }
+                savedGame.addTurn(column);
+                savedGame.saveGame(SavedGame.getPATH());
                 return stone;
             } else {
             }
@@ -166,6 +178,12 @@ public class Game extends Observable {
         players = new ArrayList<>();
         players.add(redPlayer);
         players.add(yellowPlayer);
+        savedGame.setRedPlayerName(redPlayerName);
+        savedGame.setYellowPlayerName(yellowPlayerName);
+    }
+    public void continueGame() {
+        savedGame.loadGame(SavedGame.getPATH());
+        this.startGame(savedGame.getRedPlayerName(),savedGame.getYellowPlayerName());
     }
 
 
@@ -196,5 +214,13 @@ public class Game extends Observable {
      * */
     public int getLastPlayedRow() {
         return lastPlayedRow;
+    }
+
+    /**
+     *
+     * @return the SaveGame object
+     */
+    public SavedGame getSavedGame() {
+        return savedGame;
     }
 }

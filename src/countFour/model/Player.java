@@ -1,7 +1,14 @@
+/**
+ * This class implements a player object containing the properties name, color of the stones,
+ * the stack of the stones and if he is on turn.
+ *
+ *
+ * @author  Rahel Krubally
+ * @version 1.0
+ * @since   2019-12-1
+ */
 package countFour.model;
-
 import javafx.scene.paint.Color;
-
 import java.util.ArrayList;
 
 public class Player {

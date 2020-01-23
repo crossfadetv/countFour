@@ -1,6 +1,15 @@
+/**
+ * The game's controller class handles user inputs.
+ *
+ *
+ * @author  Rahel Krubally, Markus Steiner
+ * @version 1.0
+ * @since   2020-01-01
+ */
 package countFour;
 
 import countFour.model.Game;
+import countFour.model.SavedGame;
 import countFour.model.Stone;
 import countFour.view.EntryScreen;
 import countFour.view.PlayScreen;
@@ -56,7 +65,16 @@ public class Controller {
      */
     public void handleStartGame(String redPlayerName, String yellowPlayerName) {
         game.startGame(redPlayerName, yellowPlayerName);
+        game.getSavedGame().saveGame(SavedGame.getPATH());
         playScreen.showScreen();
+    }
+
+    /**
+     * restore the last game state
+     */
+    public void handleContinueGame() {
+        game.continueGame();
+        playScreen.restoreSavedGame(game.getSavedGame());
     }
 
     /**

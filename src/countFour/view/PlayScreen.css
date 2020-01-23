@@ -1,21 +1,19 @@
+/*
+css for the play screen's layout properties
+Markus Steiner, Jan 2020
+ */
 .root {
     -fx-font-family: Ebrima;
-
     -fx-background-color: linear-gradient(from 50% 0% to 50% 100%, white 87%, #0b02aa 20%);
-
 }
 .label {
     -fx-font-size: 20;
     -fx-font-weight: bold;
     -fx-padding: 10;
-
 }
 #red-notification {
     -fx-text-fill: red;
-
-
 }
 #yellow-notification {
     -fx-text-fill: yellow;
-
 }

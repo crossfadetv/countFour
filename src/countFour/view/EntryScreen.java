@@ -1,3 +1,11 @@
+/**
+ * This class implements the user interface (javaFX) and its layout for the games's entry screen.
+ *
+ *
+ * @author  Rahel Krubally, Markus Steiner
+ * @version 1.0
+ * @since   2019-12-01
+ */
 package countFour.view;
 
 import countFour.Controller;
@@ -53,7 +61,7 @@ public class EntryScreen extends VBox {
 
         FileInputStream fis = null;
         try {
-            fis = new FileInputStream("src/countFour/view/bannerEntryScreen.jpg");
+            fis = new FileInputStream("src/countFour/view/img/bannerEntryScreen.jpg");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -92,6 +100,7 @@ public class EntryScreen extends VBox {
         yellowPlayer = new TextField();
         yellowPlayer.setId("yellowfield");
         Button continueGameButton = new Button("letztes Spiel fortsetzen");
+        continueGameButton.setOnMouseClicked(event -> continueGame());
         continueGameButton.setId("continue-btn");
         grid.add(instruction,0,0);
         grid.add(redPlayer,0,1);
@@ -136,5 +145,8 @@ public class EntryScreen extends VBox {
             controller.handleStartGame(redPlayer, yellowPlayer);
         }
 
+    }
+    private void continueGame() {
+        controller.handleContinueGame();
     }
 }
