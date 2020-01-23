@@ -278,4 +278,8 @@ public class Game extends Observable {
     public SavedGame getSavedGame() {
         return savedGame;
     }
+
+    public Stone[][] getStoneContainerGrid() {
+        return stoneContainerGrid;
+    }
 }

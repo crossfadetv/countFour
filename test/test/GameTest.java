@@ -10,6 +10,7 @@ package test;
 
 import countFour.model.Game;
 import countFour.model.Player;
+import countFour.model.Stone;
 import javafx.scene.paint.Color;
 import org.junit.Assert;
 import org.junit.Before;
@@ -63,6 +64,9 @@ public class GameTest {
 
         game.checkForWinner(testRedPlayer, 3, 2);
         assertTrue(game.getHasGameEnded());
+        game.identifyWinningStones();
+        assertSame(game.getStoneContainerGrid()[3][5].getFill(), Color.DARKRED);
+
     }
 
     @Test
@@ -76,6 +80,8 @@ public class GameTest {
         game.playMove(2);
         game.playMove(1);
         assertTrue(game.getHasGameEnded());
+        game.identifyWinningStones();
+        assertSame(game.getStoneContainerGrid()[1][2].getFill(), Color.DARKRED);
     }
 
     @Test
@@ -93,6 +99,8 @@ public class GameTest {
         game.playMove(4);
         game.playMove(4);
         assertTrue(game.getHasGameEnded());
+        game.identifyWinningStones();
+        assertSame(game.getStoneContainerGrid()[4][2].getFill(), Color.DARKRED);
     }
 
     @Test
@@ -111,6 +119,8 @@ public class GameTest {
         game.playMove(6);
         game.playMove(4);
         assertTrue(game.getHasGameEnded());
+        game.identifyWinningStones();
+        assertSame(game.getStoneContainerGrid()[4][5].getFill(), Color.DARKGOLDENROD);
     }
 
     @Test
@@ -151,6 +161,26 @@ public class GameTest {
         Assert.assertEquals("Frau Rot", game.getPlayerOnTurn().getName());
         game.changePlayerTurn();
         Assert.assertEquals("Herr Gelb", game.getPlayerOnTurn().getName());
+    }
+
+    @Test
+    public void testIdentifyWinningStones(){
+        game.startGame("Frau Rot", "Herr Gelb");
+        game.playMove(1);
+        game.playMove(1);
+        game.playMove(1);
+        game.playMove(1);
+        game.playMove(2);
+        game.playMove(2);
+        game.playMove(3);
+        game.playMove(2);
+        game.playMove(5);
+        game.playMove(3);
+        game.playMove(6);
+        game.playMove(4);
+        assertTrue(game.getHasGameEnded());
+        game.identifyWinningStones();
+        assertSame(game.getStoneContainerGrid()[4][5].getFill(), Color.DARKGOLDENROD);
     }
 
     }
