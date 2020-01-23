@@ -205,7 +205,7 @@ public class PlayScreen extends GridPane {
             scheduler.schedule(task, delay, TimeUnit.MILLISECONDS);
 
         }
-        infoBox.setText(controller.getWinner() + " ,du hast gewonnen!");
+        infoBox.setText(controller.getWinner() + ", du hast gewonnen!");
         addNewGameButton();
 
     }
