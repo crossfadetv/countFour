@@ -200,8 +200,14 @@ public class Game extends Observable {
     /**
      * identifies the winning stones
      */
-    public void showWinningStones() {
-        Color winningColor = getPlayerOnTurn().getColor().desaturate();
+    public void identifyWinningStones() {
+        Color winningColor;
+        if (getPlayerOnTurn().getColor() == Color.YELLOW) {
+            winningColor = Color.DARKGOLDENROD;
+        } else {
+            winningColor = Color.DARKRED;
+        }
+
         switch (winDirection) {
             case "vertical":
                 for (int y = winningRow; y >= winningRow - 3; y--) {
@@ -221,7 +227,7 @@ public class Game extends Observable {
 
             case "ascending":
                 for (int offset = 0; offset <= 3; offset++) {
-                    stoneContainerGrid[winningColumn-offset][winningRow+offset].setFill(winningColor);
+                    stoneContainerGrid[winningColumn - offset][winningRow + offset].setFill(winningColor);
                 }
                 break;
         }

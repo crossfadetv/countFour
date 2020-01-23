@@ -20,7 +20,7 @@ public class SavedGame implements Serializable {
 
     /**
      * Writes a file containing this object state and store it in the defined path
-     * @param path
+     * @param path path to store object state
      */
     public void saveGame(String path) {
         try {
@@ -35,7 +35,7 @@ public class SavedGame implements Serializable {
 
     /**
      * Reads a file containing this object state and store it in the defined path
-     * @param path
+     * @param path path to load object state
      */
     public void loadGame(String path) {
         try {

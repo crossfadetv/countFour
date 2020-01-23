@@ -81,10 +81,7 @@ public class Player {
         return stones.size();
     }
 
-    /**
-     * fills the players stones
-     */
-    public void fillStones() {
+    private void fillStones() {
         for (int x = 0; x < 21; x++) {
             stones.add(new Stone(this));
         }

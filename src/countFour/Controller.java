@@ -84,7 +84,7 @@ public class Controller {
         if (game.getIsDraw()) {
             playScreen.addDrawInfo();
         } else {
-            game.showWinningStones();
+            game.identifyWinningStones();
             playScreen.addWinnerInfo();
         }
     }
