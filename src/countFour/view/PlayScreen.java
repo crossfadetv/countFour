@@ -50,6 +50,7 @@ public class PlayScreen extends GridPane {
     private Scene playScene;
     private Pane stonePane = new Pane();
     private Label infoBox;
+    private Button muteAudioBtn;
     private VBox infoBoxContainer;
     private Controller controller;
     private ArrayList<Polygon> positionArrows;
@@ -132,6 +133,8 @@ public class PlayScreen extends GridPane {
 
     private VBox getInfoBox() {
         infoBox = new Label();
+        muteAudioBtn = new Button("Ton aus");
+        muteAudioBtn.setOnMouseClicked(event -> toggleAudio());
         infoBoxContainer = new VBox(infoBox);
         infoBoxContainer.setAlignment(Pos.CENTER);
         infoBoxContainer.setPrefSize(700, 100);
@@ -146,6 +149,7 @@ public class PlayScreen extends GridPane {
         playScene.getStylesheets().add(getClass().getResource("PlayScreen.css").toExternalForm());
         infoBox.setId("red-notification");
         infoBox.setText(controller.showPlayer().toUpperCase() + ", du bist am Zug!");
+        infoBoxContainer.getChildren().add(muteAudioBtn);
         primaryStage.setScene(playScene);
         primaryStage.show();
     }
@@ -280,5 +284,10 @@ public class PlayScreen extends GridPane {
 
     public void toggleAudio() {
         this.muteAudio=!this.muteAudio;
+        if (this.muteAudio) {
+            muteAudioBtn.setText("Ton ein");
+        } else {
+            muteAudioBtn.setText("Ton aus");
+        }
     }
 }
