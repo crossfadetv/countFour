@@ -26,6 +26,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaPlayer.Status;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
@@ -53,6 +54,10 @@ public class PlayScreen extends GridPane {
     private Controller controller;
     private ArrayList<Polygon> positionArrows;
     private boolean muteAudio = false;
+    private Media dropAudioFile;
+    private MediaPlayer dropPlayer;
+    private Media winAudioFile;
+    private MediaPlayer winPlayer;
 
     /**
      * @param controller defines controller
@@ -64,6 +69,10 @@ public class PlayScreen extends GridPane {
         this.primaryStage = primaryStage;
         this.positionArrows = new ArrayList<>();
         this.playScene = new Scene(buildPlayScreen());
+        this.dropAudioFile = new Media(new File("src/countFour/view/audio/drop.mp3").toURI().toString());
+        this.dropPlayer = new MediaPlayer(dropAudioFile);
+        this.winAudioFile = new Media(new File("src/countFour/view/audio/win.mp3").toURI().toString());
+        this.winPlayer = new MediaPlayer(winAudioFile);
 
     }
 
@@ -191,23 +200,20 @@ public class PlayScreen extends GridPane {
     public void addWinnerInfo() {
         //Audio Setup
         if (!muteAudio) {
-            double audioDelay = 700;
+            double audioDelay = 1000;
             ScheduledExecutorService scheduler
                     = Executors.newSingleThreadScheduledExecutor();
 
             Runnable task = () -> {
-                Media winnerSound = new Media(new File("src/countFour/view/audio/win.mp3").toURI().toString());
-                MediaPlayer playWinnerSound = new MediaPlayer(winnerSound);
-                playWinnerSound.setAutoPlay(true);
-                playWinnerSound.play();
+                winPlayer.setAutoPlay(true);
+                winPlayer.play();
             };
             int delay = (int) audioDelay;
             scheduler.schedule(task, delay, TimeUnit.MILLISECONDS);
-
+            winPlayer.stop();
         }
         infoBox.setText(controller.getWinner() + ", du hast gewonnen!");
         addNewGameButton();
-
     }
 
     /**
@@ -234,6 +240,7 @@ public class PlayScreen extends GridPane {
 
     private void playAnimation(int column, Circle stone){
         double dropDuration = 500;
+        Status status = dropPlayer.getStatus();
         //Audio Setup
         if (!this.muteAudio) {
 
@@ -241,14 +248,11 @@ public class PlayScreen extends GridPane {
                     = Executors.newSingleThreadScheduledExecutor();
 
             Runnable task = () -> {
-                Media drop = new Media(new File("src/countFour/view/audio/drop.mp3").toURI().toString());
-                MediaPlayer playDrop = new MediaPlayer(drop);
-                playDrop.setAutoPlay(true);
-                playDrop.play();
+                dropPlayer.play();
             };
             int delay = (int) dropDuration;
             scheduler.schedule(task, delay, TimeUnit.MILLISECONDS);
-            //scheduler.shutdown();
+            dropPlayer.stop();
         }
 
 
