@@ -174,7 +174,7 @@ public class PlayScreen extends GridPane {
     }
 
     /**
-     * Reset the last grid. Basically redo all turns that are stored in the SavedGame object
+     * Reset the last grid. Basically redo all turns of the last game that are stored in the SavedGame object
      * @param savedGame
      */
     public void restoreSavedGame (SavedGame savedGame) {
