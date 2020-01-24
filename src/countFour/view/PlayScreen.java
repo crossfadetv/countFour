@@ -173,6 +173,10 @@ public class PlayScreen extends GridPane {
         }
     }
 
+    /**
+     * Reset the last grid. Basically redo all turns that are stored in the SavedGame object
+     * @param savedGame
+     */
     public void restoreSavedGame (SavedGame savedGame) {
         this.toggleAudio();
         this.showScreen();
@@ -181,10 +185,9 @@ public class PlayScreen extends GridPane {
         for (int i=0; i<turnAmountOld; i++) {
             makeMove(savedGame.getTurns().get(i));
             savedGame.getTurns().remove((savedGame.getTurns().size())-1);
+            savedGame.saveGame(SavedGame.getPATH());
         }
         this.toggleAudio();
-
-
     }
 
     /**
